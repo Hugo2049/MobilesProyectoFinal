@@ -62,32 +62,32 @@ fun SetGoalsScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Campo para el nombre
-        CustomTextField(value = name, onValueChange = { name = it }, label = "Nombre")
+        CustomTextField(value = name, onValueChange = { name = it }, label = "Name")
 
         // Campo para el nombre de usuario
-        CustomTextField(value = username, onValueChange = { username = it }, label = "Usuario")
+        CustomTextField(value = username, onValueChange = { username = it }, label = "Username")
 
         // Campo para la contraseña (con opción de mostrar/ocultar)
         CustomTextField(
             value = password,
             onValueChange = { password = it },
-            label = "Contraseña",
+            label = "Password",
             isPassword = true,
             showPassword = showPassword,
             onShowPasswordChange = { showPassword = !showPassword }
         )
 
         // Campo para la edad
-        CustomTextField(value = age, onValueChange = { age = it }, label = "Edad")
+        CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
 
         // Campo para el peso
-        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Peso")
+        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Weight")
 
         // Campo para la altura
-        CustomTextField(value = height, onValueChange = { height = it }, label = "Altura")
+        CustomTextField(value = height, onValueChange = { height = it }, label = "Height")
 
         // Selección de la frecuencia de ejercicio
-        Text("¿Con qué frecuencia haces ejercicio?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Text("How often do you exercise?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -102,7 +102,7 @@ fun SetGoalsScreen() {
         }
 
         // Restricciones dietéticas
-        Text("¿Tienes alguna restricción dietética?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Text("Do you have any dietary restrictions?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -117,7 +117,7 @@ fun SetGoalsScreen() {
         }
 
         // Selección de objetivo
-        Text("¿Cuál es tu objetivo?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Text("What is your goal?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -137,7 +137,7 @@ fun SetGoalsScreen() {
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00AA00))
         ) {
-            Text("Continuar", color = Color.White)
+            Text("Continue", color = Color.White)
         }
     }
 }
@@ -167,7 +167,7 @@ fun CustomTextField(
         )
         if (isPassword && onShowPasswordChange != null) {
             Text(
-                text = if (showPassword) "Ocultar" else "Mostrar",
+                text = if (showPassword) "Hide" else "Show",
                 modifier = Modifier
                     .clickable { onShowPasswordChange() }
                     .padding(4.dp),

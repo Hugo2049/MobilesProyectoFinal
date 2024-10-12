@@ -41,7 +41,7 @@ fun NutriFitLoginScreen() {
     ) {
         // Texto de bienvenida
         Text(
-            text = "Bienvenido de nuevo a NutriFit",
+            text = "Welcome back to NutriFit",
             fontSize = 24.sp,
             color = Color.Black,
             modifier = Modifier
@@ -65,7 +65,7 @@ fun NutriFitLoginScreen() {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 decorationBox = { innerTextField ->
                     if (username.isEmpty()) {
-                        Text("Nombre de usuario", color = Color.Gray)
+                        Text("Username", color = Color.Gray)
                     }
                     innerTextField()
                 }
@@ -88,7 +88,7 @@ fun NutriFitLoginScreen() {
                 visualTransformation = PasswordVisualTransformation(),
                 decorationBox = { innerTextField ->
                     if (password.isEmpty()) {
-                        Text("Contraseña", color = Color.Gray)
+                        Text("Password", color = Color.Gray)
                     }
                     innerTextField()
                 }
@@ -97,7 +97,7 @@ fun NutriFitLoginScreen() {
 
         // Texto de "Olvidó su contraseña"
         Text(
-            text = "¿Olvidaste tu contraseña?",
+            text = "Forgot your password?",
             color = Color.Gray,
             modifier = Modifier
                 .padding(bottom = 32.dp)
@@ -116,12 +116,12 @@ fun NutriFitLoginScreen() {
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text(text = "Iniciar sesión", color = Color.White)
+            Text(text = "Log In", color = Color.White)
         }
 
         // Texto de "Registrarse"
         Text(
-            text = "¿Nuevo usuario? Regístrate",
+            text = "New user? Sign Up",
             color = Color.Black,
             modifier = Modifier
                 .padding(top = 16.dp)
