@@ -1,0 +1,159 @@
+package com.uvg.myapplication
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+
+@Composable
+fun SetGoalsScreen() {
+    var age by remember { mutableStateOf("") }
+    var weight by remember { mutableStateOf("") }
+    var height by remember { mutableStateOf("") }
+    var workoutFrequency by remember { mutableStateOf("") }
+    var dietaryRestriction by remember { mutableStateOf("") }
+    var goal by remember { mutableStateOf("") }
+
+    var selectedFrequency by remember { mutableStateOf("") }
+    val frequencies = listOf("Never", "Rarely", "Sometimes", "Often", "Very Often")
+
+    var selectedDietaryRestriction by remember { mutableStateOf("None") }
+    val dietaryOptions = listOf("None", "Vegetarian", "Vegan", "Pescatarian")
+
+    var selectedGoal by remember { mutableStateOf("") }
+    val goalOptions = listOf("Lose Weight", "Gain Muscle", "Maintain")
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+            .background(Color.White),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // Age input
+        CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
+
+        // Weight input
+        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Weight")
+
+        // Height input
+        CustomTextField(value = height, onValueChange = { height = it }, label = "Height")
+
+        // Workout frequency selection
+        Text("How often do you workout?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            frequencies.forEach { freq ->
+                FrequencyChip(
+                    text = freq,
+                    isSelected = selectedFrequency == freq,
+                    onSelected = { selectedFrequency = freq }
+                )
+            }
+        }
+
+        // Dietary restrictions
+        Text("Do you have any dietary restrictions?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            dietaryOptions.forEach { option ->
+                FrequencyChip(
+                    text = option,
+                    isSelected = selectedDietaryRestriction == option,
+                    onSelected = { selectedDietaryRestriction = option }
+                )
+            }
+        }
+
+        // Goal selection
+        Text("What is your goal?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            goalOptions.forEach { g ->
+                FrequencyChip(
+                    text = g,
+                    isSelected = selectedGoal == g,
+                    onSelected = { selectedGoal = g }
+                )
+            }
+        }
+
+        // Continue button
+        Button(
+            onClick = { /* Handle continue action */ },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00AA00))
+        ) {
+            Text("Continue", color = Color.White)
+        }
+    }
+}
+
+@Composable
+fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: String) {
+    Column {
+        Text(label, style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            singleLine = true,
+            textStyle = TextStyle(fontSize = 16.sp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp)
+                .background(Color(0xFFF0F0F0))
+                .padding(8.dp)
+        )
+    }
+}
+
+@Composable
+fun FrequencyChip(text: String, isSelected: Boolean, onSelected: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .background(
+                if (isSelected) Color(0xFFEEE0BB) else Color(0xFFF0F0F0),
+                shape = MaterialTheme.shapes.small
+            )
+            .clickable { onSelected() }
+            .padding(8.dp)
+    ) {
+        Text(text)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SetGoalsScreenPreview() {
+    SetGoalsScreen()
+}
