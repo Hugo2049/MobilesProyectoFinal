@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 
 
 @Composable
-fun PantallaComida() {
+fun MealsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -85,12 +85,11 @@ fun MealItem(title: String) {
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        // Temporizador para la imagen
         Box(
             modifier = Modifier
                 .size(60.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.Gray)  // Color gris como marcador de posición
+                .background(Color.Gray)
         )
 
         Spacer(modifier = Modifier.width(16.dp))
@@ -111,4 +110,3 @@ fun MealItem(title: String) {
         }
     }
 }
-

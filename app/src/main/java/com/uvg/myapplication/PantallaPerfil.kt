@@ -49,7 +49,7 @@ fun ProfileScreen() {
             }
         }
 
-        // Título "Your Profile" centrado
+        // Título "Your Profile"
         Text(
             text = "Your Profile",
             fontSize = 24.sp,
@@ -57,26 +57,26 @@ fun ProfileScreen() {
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 32.dp) // Ajusta el espacio superior/inferior
+                .padding(vertical = 32.dp)
         )
 
-        // Fila 1: Health Goals con más espacio entre filas
+        // Fila 1: Health Goals
         ProfileItem(text = "Health Goals", Modifier.padding(bottom = 24.dp))
 
-        // Fila 2: Fitness Level con más espacio entre filas
+        // Fila 2: Fitness Level
         ProfileItem(text = "Fitness Level", Modifier.padding(bottom = 24.dp))
 
-        // Fila 3: Dietary Preferences con más espacio entre filas
+        // Fila 3: Dietary Preferences
         ProfileItem(text = "Dietary Preferences", Modifier.padding(bottom = 32.dp))
 
-        // Botón de Update Profile sin contorno
+        // Botón de Update Profile
         Button(
             onClick = { /* Acción de actualizar */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
                 .height(48.dp),
-            shape = RoundedCornerShape(8.dp), // Mantiene el borde redondeado
+            shape = RoundedCornerShape(8.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color(0xFFEFEFEF) // Gris claro
             )

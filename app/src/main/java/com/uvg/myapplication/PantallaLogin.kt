@@ -26,23 +26,22 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.graphics.Brush
 
 @Composable
 fun NutriFitLoginScreen() {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Column to hold all elements
+    // Columna para contener todos los elementos
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        // Welcome Text
+        // Texto de bienvenida
         Text(
-            text = "Welcome back to NutriFit",
+            text = "Bienvenido de nuevo a NutriFit",
             fontSize = 24.sp,
             color = Color.Black,
             modifier = Modifier
@@ -51,7 +50,7 @@ fun NutriFitLoginScreen() {
             textAlign = TextAlign.Center
         )
 
-        // Username Field
+        // Campo de nombre de usuario
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -66,14 +65,14 @@ fun NutriFitLoginScreen() {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                 decorationBox = { innerTextField ->
                     if (username.isEmpty()) {
-                        Text("Username", color = Color.Gray)
+                        Text("Nombre de usuario", color = Color.Gray)
                     }
                     innerTextField()
                 }
             )
         }
 
-        // Password Field
+        // Campo de contraseña
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -89,16 +88,16 @@ fun NutriFitLoginScreen() {
                 visualTransformation = PasswordVisualTransformation(),
                 decorationBox = { innerTextField ->
                     if (password.isEmpty()) {
-                        Text("Password", color = Color.Gray)
+                        Text("Contraseña", color = Color.Gray)
                     }
                     innerTextField()
                 }
             )
         }
 
-        // Forgot Password Text
+        // Texto de "Olvidó su contraseña"
         Text(
-            text = "Forgot password?",
+            text = "¿Olvidaste tu contraseña?",
             color = Color.Gray,
             modifier = Modifier
                 .padding(bottom = 32.dp)
@@ -106,23 +105,23 @@ fun NutriFitLoginScreen() {
             textAlign = TextAlign.End
         )
 
-        // Log in Button
+        // Botón de "Iniciar sesión"
         Button(
-            onClick = { /* Handle login logic */ },
+            onClick = { /* Manejar lógica de inicio de sesión */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00C853) // Verde brillante como el de la imagen
+                containerColor = Color(0xFF00C853)
             ),
             shape = RoundedCornerShape(8.dp)
         ) {
-            Text(text = "Log in", color = Color.White)
+            Text(text = "Iniciar sesión", color = Color.White)
         }
 
-        // Sign up Text
+        // Texto de "Registrarse"
         Text(
-            text = "New user? Sign Up",
+            text = "¿Nuevo usuario? Regístrate",
             color = Color.Black,
             modifier = Modifier
                 .padding(top = 16.dp)

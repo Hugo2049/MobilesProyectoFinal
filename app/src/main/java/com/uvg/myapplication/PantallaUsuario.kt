@@ -61,33 +61,33 @@ fun SetGoalsScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Nombre input
-        CustomTextField(value = name, onValueChange = { name = it }, label = "Name")
+        // Campo para el nombre
+        CustomTextField(value = name, onValueChange = { name = it }, label = "Nombre")
 
-        // Usuario input
-        CustomTextField(value = username, onValueChange = { username = it }, label = "Username")
+        // Campo para el nombre de usuario
+        CustomTextField(value = username, onValueChange = { username = it }, label = "Usuario")
 
-        // Contraseña input (con opción de mostrar/ocultar)
+        // Campo para la contraseña (con opción de mostrar/ocultar)
         CustomTextField(
             value = password,
             onValueChange = { password = it },
-            label = "Password",
+            label = "Contraseña",
             isPassword = true,
             showPassword = showPassword,
             onShowPasswordChange = { showPassword = !showPassword }
         )
 
-        // Age input
-        CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
+        // Campo para la edad
+        CustomTextField(value = age, onValueChange = { age = it }, label = "Edad")
 
-        // Weight input
-        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Weight")
+        // Campo para el peso
+        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Peso")
 
-        // Height input
-        CustomTextField(value = height, onValueChange = { height = it }, label = "Height")
+        // Campo para la altura
+        CustomTextField(value = height, onValueChange = { height = it }, label = "Altura")
 
-        // Workout frequency selection
-        Text("How often do you workout?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        // Selección de la frecuencia de ejercicio
+        Text("¿Con qué frecuencia haces ejercicio?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -101,8 +101,8 @@ fun SetGoalsScreen() {
             }
         }
 
-        // Dietary restrictions
-        Text("Do you have any dietary restrictions?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        // Restricciones dietéticas
+        Text("¿Tienes alguna restricción dietética?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -116,8 +116,8 @@ fun SetGoalsScreen() {
             }
         }
 
-        // Goal selection
-        Text("What is your goal?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
+        // Selección de objetivo
+        Text("¿Cuál es tu objetivo?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxWidth(),
@@ -131,13 +131,13 @@ fun SetGoalsScreen() {
             }
         }
 
-        // Continue button
+        // Botón de continuar
         Button(
-            onClick = { /* Handle continue action */ },
+            onClick = { /* Manejar acción de continuar */ },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00AA00))
         ) {
-            Text("Continue", color = Color.White)
+            Text("Continuar", color = Color.White)
         }
     }
 }
@@ -167,7 +167,7 @@ fun CustomTextField(
         )
         if (isPassword && onShowPasswordChange != null) {
             Text(
-                text = if (showPassword) "Hide" else "Show",
+                text = if (showPassword) "Ocultar" else "Mostrar",
                 modifier = Modifier
                     .clickable { onShowPasswordChange() }
                     .padding(4.dp),

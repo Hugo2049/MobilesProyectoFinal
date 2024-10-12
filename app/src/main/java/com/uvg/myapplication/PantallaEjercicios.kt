@@ -33,9 +33,9 @@ fun ExerciseScreen() {
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Image
+        // Imagen
         val painter = rememberImagePainter(
-            data = "https://www.your-image-url.com/dumbbell_lateral_raise.jpg",
+            data = "PlaceHolder",
             builder = {
                 scale(Scale.FILL)
                 transformations(CircleCropTransformation())
@@ -44,7 +44,7 @@ fun ExerciseScreen() {
 
         Image(
             painter = painter,
-            contentDescription = "Dumbbell Lateral Raise",
+            contentDescription = "Elevación Lateral con Mancuernas",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp),
@@ -53,9 +53,9 @@ fun ExerciseScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Exercise Title
+        // Título del ejercicio
         Text(
-            text = "Dumbbell Lateral Raise",
+            text = "Elevación Lateral con Mancuernas",
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
@@ -64,23 +64,23 @@ fun ExerciseScreen() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Sets x Reps
+        // Series x Repeticiones
         Text(
-            text = "Sets x Reps",
+            text = "Series x Repeticiones",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
         Text(
-            text = "4x12-15\nRest 60s",
+            text = "4x12-15\nDescanso 60s",
             color = Color.Gray,
             fontSize = 16.sp
         )
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Musculos enfocados en el ejercicios
+        // Músculos enfocados
         Text(
-            text = "Target Muscles",
+            text = "Músculos Enfocados",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
@@ -90,39 +90,39 @@ fun ExerciseScreen() {
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            MuscleChip("Middle Delt")
-            MuscleChip("Upper Traps")
+            MuscleChip("Deltoides Medio")
+            MuscleChip("Trapecio Superior")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Equipment
+        // Equipo
         Text(
-            text = "Equipment",
+            text = "Equipo",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
         Text(
-            text = "Dumbbells",
+            text = "Mancuernas",
             color = Color.Gray,
             fontSize = 16.sp
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Mark as Complete Button
+        // Botón de "Marcar como completado"
         Button(
-            onClick = { /* TODO: Action on click */ },
+            onClick = { /* TODO: Acción al hacer clic */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
             shape = RoundedCornerShape(8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF007BFF) // Blue color for button
+                containerColor = Color(0xFF007BFF) // Color azul para el botón
             )
         ) {
             Text(
-                text = "Mark as Complete",
+                text = "Marcar como Completado",
                 color = Color.White,
                 fontSize = 18.sp
             )

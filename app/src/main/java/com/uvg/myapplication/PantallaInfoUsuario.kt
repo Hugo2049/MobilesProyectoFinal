@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Definimos colores en tonos grises
 val LightGrayBackground = Color(0xFFF5F5F5)
 val DarkerGrayText = Color(0xFF333333)
 val GrayButton = Color(0xFFCCCCCC)
@@ -31,7 +30,7 @@ fun ProfileInfoScreen() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .background(LightGrayBackground), // Fondo gris claro
+            .background(LightGrayBackground),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -41,7 +40,7 @@ fun ProfileInfoScreen() {
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = DarkerGrayText,
-            modifier = Modifier.padding(bottom = 32.dp) // Más espacio
+            modifier = Modifier.padding(bottom = 32.dp)
         )
 
         // Sección para cambiar Username
@@ -50,7 +49,7 @@ fun ProfileInfoScreen() {
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = DarkerGrayText,
-            modifier = Modifier.padding(bottom = 12.dp) // Más espacio bajo el título
+            modifier = Modifier.padding(bottom = 12.dp)
         )
         TextField(
             value = usernameState.value,
@@ -61,7 +60,7 @@ fun ProfileInfoScreen() {
                 .padding(vertical = 8.dp)
         )
 
-        Spacer(modifier = Modifier.height(24.dp)) // Más espacio entre secciones
+        Spacer(modifier = Modifier.height(24.dp))
 
         // Sección para cambiar Password
         Text(
@@ -89,10 +88,10 @@ fun ProfileInfoScreen() {
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp)
                 .height(50.dp),
-            shape = RoundedCornerShape(12.dp),  // Esquinas redondeadas
+            shape = RoundedCornerShape(12.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = GrayButton,  // Fondo gris claro
-                contentColor = DarkerGrayText // Texto gris oscuro
+                containerColor = GrayButton,
+                contentColor = DarkerGrayText
             )
         ) {
             Text(
