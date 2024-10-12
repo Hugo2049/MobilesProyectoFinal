@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,6 +23,10 @@ val GrayButton = Color(0xFFCCCCCC)
 
 @Composable
 fun ProfileInfoScreen() {
+    // Estados para el username y password
+    val usernameState = remember { mutableStateOf("") }
+    val passwordState = remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -37,33 +44,47 @@ fun ProfileInfoScreen() {
             modifier = Modifier.padding(bottom = 32.dp) // Más espacio
         )
 
-        // Sección de objetivos de salud
-        TextSection(
-            title = "Health Goals",
-            items = listOf("Maintain Weight", "Eat Healthier", "Get Fitter")
+        // Sección para cambiar Username
+        Text(
+            text = "Username",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            color = DarkerGrayText,
+            modifier = Modifier.padding(bottom = 12.dp) // Más espacio bajo el título
+        )
+        TextField(
+            value = usernameState.value,
+            onValueChange = { usernameState.value = it },
+            placeholder = { Text(text = "Enter your username") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp)) // Más espacio entre secciones
 
-        // Sección de nivel de condición física
-        TextSection(
-            title = "Fitness Level",
-            items = listOf("Intermediate")
+        // Sección para cambiar Password
+        Text(
+            text = "Password",
+            fontSize = 22.sp,
+            fontWeight = FontWeight.Bold,
+            color = DarkerGrayText,
+            modifier = Modifier.padding(bottom = 12.dp)
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Sección de preferencias alimentarias
-        TextSection(
-            title = "Dietary Preferences",
-            items = listOf("High Protein", "Low Carb")
+        TextField(
+            value = passwordState.value,
+            onValueChange = { passwordState.value = it },
+            placeholder = { Text(text = "Enter your password") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
         )
 
         Spacer(modifier = Modifier.height(40.dp)) // Más espacio antes del botón
 
-        // Botón "Edit Profile" sin contorno
+        // Botón "Save Changes"
         Button(
-            onClick = { /* Acción de editar perfil */ },
+            onClick = { /* Acción de guardar cambios */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 32.dp)
@@ -75,34 +96,8 @@ fun ProfileInfoScreen() {
             )
         ) {
             Text(
-                text = "Edit Profile",
+                text = "Save Changes",
                 fontSize = 16.sp
-            )
-        }
-    }
-}
-
-@Composable
-fun TextSection(title: String, items: List<String>) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)  // Espacio entre títulos y descripciones
-    ) {
-        Text(
-            text = title,
-            fontSize = 22.sp,  // Tamaño de texto un poco más grande
-            fontWeight = FontWeight.Bold,
-            color = DarkerGrayText,
-            modifier = Modifier.padding(bottom = 12.dp)  // Más espacio bajo el título
-        )
-
-        items.forEach { item ->
-            Text(
-                text = item,
-                fontSize = 18.sp,
-                color = DarkerGrayText,
-                modifier = Modifier.padding(bottom = 8.dp)  // Más espacio entre líneas
             )
         }
     }
