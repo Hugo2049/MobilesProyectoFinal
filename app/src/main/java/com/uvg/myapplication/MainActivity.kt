@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 //ExerciseScreen()
-                SetGoalsScreen()
+                //SetGoalsScreen()
+                LoginScreen()
             }
         }
     }
