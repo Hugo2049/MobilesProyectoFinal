@@ -44,7 +44,7 @@ fun ExerciseScreen() {
 
         Image(
             painter = painter,
-            contentDescription = "Elevación Lateral con Mancuernas",
+            contentDescription = "Dumbbell Lateral Raise",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(300.dp),
@@ -55,7 +55,7 @@ fun ExerciseScreen() {
 
         // Título del ejercicio
         Text(
-            text = "Elevación Lateral con Mancuernas",
+            text = "Dumbbell Lateral Raise",
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
@@ -66,12 +66,12 @@ fun ExerciseScreen() {
 
         // Series x Repeticiones
         Text(
-            text = "Series x Repeticiones",
+            text = "Sets x Reps",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
         Text(
-            text = "4x12-15\nDescanso 60s",
+            text = "4x12-15\nRest 60s",
             color = Color.Gray,
             fontSize = 16.sp
         )
@@ -80,7 +80,7 @@ fun ExerciseScreen() {
 
         // Músculos enfocados
         Text(
-            text = "Músculos Enfocados",
+            text = "Targeted Muscles",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
@@ -90,20 +90,20 @@ fun ExerciseScreen() {
                 .padding(top = 8.dp),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            MuscleChip("Deltoides Medio")
-            MuscleChip("Trapecio Superior")
+            MuscleChip("Middle Deltoid")
+            MuscleChip("Upper Trapezius")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Equipo
         Text(
-            text = "Equipo",
+            text = "Equipment",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp
         )
         Text(
-            text = "Mancuernas",
+            text = "Dumbbells",
             color = Color.Gray,
             fontSize = 16.sp
         )
@@ -122,7 +122,7 @@ fun ExerciseScreen() {
             )
         ) {
             Text(
-                text = "Marcar como Completado",
+                text = "Mark as Completed",
                 color = Color.White,
                 fontSize = 18.sp
             )
