@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
                 //ExerciseScreen()
                 //SetGoalsScreen()
                 //NutriFitLoginScreen()
-                ProfileScreen()
+                //ProfileScreen()
+                ProfileInfoScreen()
             }
         }
     }
