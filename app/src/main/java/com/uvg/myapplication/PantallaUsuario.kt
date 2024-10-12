@@ -24,12 +24,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun SetGoalsScreen() {
+    var name by remember { mutableStateOf("") }
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var showPassword by remember { mutableStateOf(false) }
+
     var age by remember { mutableStateOf("") }
     var weight by remember { mutableStateOf("") }
     var height by remember { mutableStateOf("") }
@@ -54,6 +61,22 @@ fun SetGoalsScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        // Nombre input
+        CustomTextField(value = name, onValueChange = { name = it }, label = "Name")
+
+        // Usuario input
+        CustomTextField(value = username, onValueChange = { username = it }, label = "Username")
+
+        // Contraseña input (con opción de mostrar/ocultar)
+        CustomTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = "Password",
+            isPassword = true,
+            showPassword = showPassword,
+            onShowPasswordChange = { showPassword = !showPassword }
+        )
+
         // Age input
         CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
 
@@ -120,7 +143,14 @@ fun SetGoalsScreen() {
 }
 
 @Composable
-fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: String) {
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    isPassword: Boolean = false,
+    showPassword: Boolean = false,
+    onShowPasswordChange: (() -> Unit)? = null
+) {
     Column {
         Text(label, style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         BasicTextField(
@@ -132,8 +162,18 @@ fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: Strin
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
                 .background(Color(0xFFF0F0F0))
-                .padding(8.dp)
+                .padding(8.dp),
+            visualTransformation = if (isPassword && !showPassword) PasswordVisualTransformation() else VisualTransformation.None
         )
+        if (isPassword && onShowPasswordChange != null) {
+            Text(
+                text = if (showPassword) "Hide" else "Show",
+                modifier = Modifier
+                    .clickable { onShowPasswordChange() }
+                    .padding(4.dp),
+                color = Color.Blue
+            )
+        }
     }
 }
 
