@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 //ExerciseScreen()
                 //SetGoalsScreen()
-                LoginScreen()
+                NutriFitLoginScreen()
             }
         }
     }
