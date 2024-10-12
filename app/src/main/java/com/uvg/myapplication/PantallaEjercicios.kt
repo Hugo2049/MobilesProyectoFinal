@@ -78,7 +78,7 @@ fun ExerciseScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Target Muscles
+        // Musculos enfocados en el ejercicios
         Text(
             text = "Target Muscles",
             fontWeight = FontWeight.SemiBold,

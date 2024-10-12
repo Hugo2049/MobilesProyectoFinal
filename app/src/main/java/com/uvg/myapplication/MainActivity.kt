@@ -24,7 +24,8 @@ class MainActivity : ComponentActivity() {
                 //NutriFitLoginScreen()
                 //ProfileScreen()
                 //ProfileInfoScreen()
-                SignUpScreen()
+                //SignUpScreen()
+                PantallaComida()
             }
         }
     }

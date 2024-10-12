@@ -63,7 +63,7 @@ fun SignUpScreen() {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Campo de texto para el nombre (First Name)
+        // Campo de texto para el nombre
         BasicTextField(
             value = firstName,
             onValueChange = { firstName = it },
@@ -85,7 +85,7 @@ fun SignUpScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de texto para el nombre de usuario (Username)
+        // Campo de texto para el nombre de usuario
         BasicTextField(
             value = username,
             onValueChange = { username = it },
@@ -107,7 +107,7 @@ fun SignUpScreen() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Campo de texto para la contraseña (Password)
+        // Campo de texto para la contraseña
         BasicTextField(
             value = password,
             onValueChange = { password = it },
@@ -131,14 +131,14 @@ fun SignUpScreen() {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Botón "Continue" con color verde #00E676
+        // Botón "Continue"
         Button(
             onClick = { /* Acción al hacer clic */ },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00E676) // Verde del botón
+                containerColor = Color(0xFF00E676)
             )
         ) {
             Text(text = "Continue", fontSize = 18.sp, color = Color.White)
