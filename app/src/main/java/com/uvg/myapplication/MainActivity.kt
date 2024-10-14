@@ -23,7 +23,8 @@ class MainActivity : ComponentActivity() {
                 //ProfileInfoScreen()
                 //SignUpScreen()
                 //MealsScreen()
-                RecipeScreen()
+                //RecipeScreen()
+                //ProfilePassScreen()
             }
         }
     }
