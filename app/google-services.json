@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64150270466",
+    "project_id": "nutrifit-92123",
+    "storage_bucket": "nutrifit-92123.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64150270466:android:8be7b2d06a33892ce3ad1b",
+        "android_client_info": {
+          "package_name": "com.uvg.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOSCF3FLk5ug7-vZBBO3oIpP1S8GBqOC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
