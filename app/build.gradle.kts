@@ -51,6 +51,7 @@ android {
 
 dependencies {
 
+
     implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.ui.tooling)
     implementation(libs.material3)
