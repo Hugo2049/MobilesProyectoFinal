@@ -15,7 +15,6 @@ import androidx.navigation.NavController
 
 @Composable
 fun RecipeScreen(navController: NavController) {
-    // Usamos un Column para estructurar el contenido y la barra de navegación inferior
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -32,73 +31,81 @@ fun RecipeScreen(navController: NavController) {
 
             // Título de la receta
             Text(
-                text = "Frittata with Asparagus",
+                text = "Frittata con Espárragos",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Placeholder de la imagen
+            // Placeholder de la imagen centrado
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .background(Color.Gray),
-                contentAlignment = Alignment.Center
-            )
+                    .background(Color.Gray)
+            ) {
+                // Este Box interno centra el texto dentro del Box exterior
+                Box(
+                    modifier = Modifier
+                        .wrapContentSize(Alignment.Center) // Centra el contenido dentro del Box
+                ) {
+                    Text(
+                        text = "Imagen de receta",
+                        color = Color.White
+                    )
+                }
+            }
 
             // Sección de ingredientes
             Text(
-                text = "Ingredients",
+                text = "Ingredientes",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
             Text(
-                text = "- 6 eggs\n" +
-                        "- 1 bunch asparagus, trimmed and cut\n" +
-                        "- 1/2 bell pepper, diced\n" +
-                        "- Salt and pepper to taste",
+                text = "- 6 huevos\n" +
+                        "- 1 manojo de espárragos, cortados\n" +
+                        "- 1/2 pimiento, picado\n" +
+                        "- Sal y pimienta al gusto",
                 fontSize = 16.sp
             )
 
             // Sección de instrucciones
             Text(
-                text = "Instructions",
+                text = "Instrucciones",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
             Text(
-                text = "1. Preheat oven to 375°F (190°C).\n" +
-                        "2. Beat eggs in a bowl, season with salt and pepper.\n" +
-                        "3. Sauté asparagus and bell pepper over medium heat.\n" +
-                        "4. Pour eggs over vegetables, cook until set.\n" +
-                        "5. Transfer to oven, bake until eggs are puffed and set.",
+                text = "1. Precalienta el horno a 190°C.\n" +
+                        "2. Bate los huevos, sazona con sal y pimienta.\n" +
+                        "3. Saltea los espárragos y el pimiento a fuego medio.\n" +
+                        "4. Vierte los huevos sobre las verduras y cocina hasta que cuajen.\n" +
+                        "5. Lleva al horno hasta que esté esponjoso y cocido.",
                 fontSize = 16.sp
             )
 
             // Sección de restricciones dietéticas
             Text(
-                text = "Dietary Restrictions",
+                text = "Restricciones Dietéticas",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.SemiBold
             )
 
             Text(
-                text = "- Gluten-free\n" +
-                        "- Nut-free\n" +
-                        "- Dairy-free option: Use dairy-free cheese.",
+                text = "- Sin gluten\n" +
+                        "- Sin nueces\n" +
+                        "- Opción sin lácteos: Usa queso sin lácteos.",
                 fontSize = 16.sp
             )
         }
 
         // Barra de navegación inferior que siempre estará en la parte inferior de la pantalla
         BottomNavBar(
-            navController = navController,
-            modifier = Modifier
-                .fillMaxWidth()
+            navController = navController
         )
     }
 }

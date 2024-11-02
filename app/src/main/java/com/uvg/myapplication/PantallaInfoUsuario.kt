@@ -1,5 +1,3 @@
-package com.uvg.myapplication
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,13 +13,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 val LightGrayBackground = Color(0xFFF5F5F5)
 val DarkerGrayText = Color(0xFF333333)
 val GrayButton = Color(0xFFCCCCCC)
 
 @Composable
-fun ProfileInfoScreen() {
+fun ProfileInfoScreen(navController: NavController) {
     // Estados para el username y password
     val usernameState = remember { mutableStateOf("") }
     val passwordState = remember { mutableStateOf("") }
@@ -96,6 +95,27 @@ fun ProfileInfoScreen() {
         ) {
             Text(
                 text = "Save Changes",
+                fontSize = 16.sp
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp)) // Espacio entre los botones
+
+        // Botón "Cancel"
+        Button(
+            onClick = { navController.navigate("main_profile") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp)
+                .height(50.dp),
+            shape = RoundedCornerShape(12.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Color.LightGray,
+                contentColor = DarkerGrayText
+            )
+        ) {
+            Text(
+                text = "Cancel",
                 fontSize = 16.sp
             )
         }
