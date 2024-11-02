@@ -28,10 +28,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @Composable
-fun MealsScreen() {
+fun MealsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,12 +52,16 @@ fun MealsScreen() {
 
         // Botón para ver la receta completa
         Button(
-            onClick = { /* Acción para ver la receta completa */ },
+            onClick = { navController.navigate("recipes") },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00A651))
         ) {
             Text("View Full Recipe", color = Color.White)
         }
+        Spacer(modifier = Modifier.height(400.dp))
+
+        // Barra de navegación inferior
+        BottomNavBar(navController = navController)
     }
 }
 
@@ -76,6 +81,7 @@ fun DateSelector() {
             Text("Mon, 2/24", color = Color.Black)
         }
     }
+
 }
 
 @Composable

@@ -54,6 +54,7 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-analytics")
+    implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation(libs.androidx.navigation.compose)
     debugImplementation(libs.ui.tooling)
     implementation(libs.material3)

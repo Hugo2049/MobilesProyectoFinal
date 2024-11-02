@@ -16,20 +16,20 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
 import java.util.*
 
 @Composable
-fun WorkoutPlanScreen() {
-    // Scroll state para manejar el scroll vertical
+fun WorkoutPlanScreen(navController: NavController) {
     val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(scrollState) // Habilitar scroll vertical
+            .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
         WorkoutCalendar()
@@ -69,7 +69,7 @@ fun WorkoutPlanScreen() {
 
         // Botón para iniciar el plan
         Button(
-            onClick = { /* Handle start plan action */ },
+            onClick = { navController.navigate("exercises_specific") },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
@@ -82,8 +82,14 @@ fun WorkoutPlanScreen() {
                 color = Color.White
             )
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Barra de navegación inferior
+        BottomNavBar(navController = navController)
     }
 }
+
 
 @Composable
 fun WorkoutDay(dayText: String) {

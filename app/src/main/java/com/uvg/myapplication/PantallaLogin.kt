@@ -1,6 +1,7 @@
 package com.uvg.myapplication
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,20 +27,19 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 @Composable
-fun NutriFitLoginScreen() {
+fun NutriFitLoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Columna para contener todos los elementos
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {
-        // Texto de bienvenida
         Text(
             text = "Welcome back to NutriFit",
             fontSize = 24.sp,
@@ -95,19 +95,22 @@ fun NutriFitLoginScreen() {
             )
         }
 
-        // Texto de "Olvidó su contraseña"
+        // Texto de "Olvidó su contraseña" con navegación
         Text(
             text = "Forgot your password?",
             color = Color.Gray,
             modifier = Modifier
                 .padding(bottom = 32.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate("change_password") // Navega a la pantalla de cambio de contraseña
+                },
             textAlign = TextAlign.End
         )
 
-        // Botón de "Iniciar sesión"
+        // Botón de "Iniciar sesión" con navegación
         Button(
-            onClick = { /* Manejar lógica de inicio de sesión */ },
+            onClick = { navController.navigate("exercises_main") }, // Navega a la pantalla de ejercicios
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp),
@@ -119,13 +122,16 @@ fun NutriFitLoginScreen() {
             Text(text = "Log In", color = Color.White)
         }
 
-        // Texto de "Registrarse"
+        // Texto de "Registrarse" con navegación
         Text(
             text = "New user? Sign Up",
             color = Color.Black,
             modifier = Modifier
                 .padding(top = 16.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .clickable {
+                    navController.navigate("create_user") // Navega a la pantalla de creación de usuario
+                },
             textAlign = TextAlign.Center
         )
     }

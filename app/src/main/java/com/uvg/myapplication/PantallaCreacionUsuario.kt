@@ -27,10 +27,11 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 
 
 @Composable
-fun SignUpScreen() {
+fun SignUpScreen(navController: NavController) {
     var firstName by remember { mutableStateOf("") }
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -64,76 +65,30 @@ fun SignUpScreen() {
         Spacer(modifier = Modifier.height(32.dp))
 
         // Campo de texto para el nombre
-        BasicTextField(
-            value = firstName,
-            onValueChange = { firstName = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFF0F0F0))
-                .padding(16.dp),
-            decorationBox = { innerTextField ->
-                Box(
-                    Modifier.fillMaxWidth()
-                ) {
-                    if (firstName.isEmpty()) {
-                        Text(text = "First Name", color = Color.Gray)
-                    }
-                    innerTextField()
-                }
-            }
-        )
+        CustomTextField(value = firstName, onValueChange = { firstName = it }, label = "First Name")
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Campo de texto para el nombre de usuario
-        BasicTextField(
-            value = username,
-            onValueChange = { username = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFF0F0F0))
-                .padding(16.dp),
-            decorationBox = { innerTextField ->
-                Box(
-                    Modifier.fillMaxWidth()
-                ) {
-                    if (username.isEmpty()) {
-                        Text(text = "Username", color = Color.Gray)
-                    }
-                    innerTextField()
-                }
-            }
-        )
+        CustomTextField(value = username, onValueChange = { username = it }, label = "Username")
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // Campo de texto para la contraseña
-        BasicTextField(
+        CustomTextField(
             value = password,
             onValueChange = { password = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFFF0F0F0))
-                .padding(16.dp),
-            visualTransformation = PasswordVisualTransformation(),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            decorationBox = { innerTextField ->
-                Box(
-                    Modifier.fillMaxWidth()
-                ) {
-                    if (password.isEmpty()) {
-                        Text(text = "Password", color = Color.Gray)
-                    }
-                    innerTextField()
-                }
-            }
+            label = "Password",
+            isPassword = true
         )
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Botón "Continue"
+        // Botón "Continue" que navega a SetGoalsScreen
         Button(
-            onClick = { /* Acción al hacer clic */ },
+            onClick = {
+                navController.navigate("set_goals") // Navega a la pantalla de SetGoalsScreen
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
