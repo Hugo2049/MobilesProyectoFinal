@@ -1,5 +1,6 @@
 package com.uvg.myapplication
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,7 @@ fun NutriFitLoginScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFF5EEDC))
             .padding(16.dp),
         verticalArrangement = Arrangement.Center
     ) {

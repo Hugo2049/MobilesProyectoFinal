@@ -40,7 +40,7 @@ fun SetGoalsScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .background(Color.White),
+            .background(Color(0xFFF5EEDC)),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

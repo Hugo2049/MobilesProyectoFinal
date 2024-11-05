@@ -29,6 +29,7 @@ fun WorkoutPlanScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFF5EEDC))
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {

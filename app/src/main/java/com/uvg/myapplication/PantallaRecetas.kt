@@ -18,7 +18,8 @@ fun RecipeScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White) // Fondo blanco para la pantalla
+            .background(Color(0xFFF5EEDC))
+
     ) {
         // Contenido principal de la pantalla
         Column(

@@ -24,7 +24,7 @@ fun ProfilePassScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(20.dp)
-            .background(Color(0xFFF5F5F5)),
+            .background(Color(0xFFF5EEDC)),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

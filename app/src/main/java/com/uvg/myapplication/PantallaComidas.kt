@@ -36,6 +36,7 @@ fun MealsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFF5EEDC))
             .padding(16.dp)
     ) {
         // Parte superior con el selector de fechas

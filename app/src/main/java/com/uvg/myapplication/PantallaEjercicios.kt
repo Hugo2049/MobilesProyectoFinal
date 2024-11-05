@@ -1,6 +1,7 @@
 package com.uvg.myapplication
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -23,6 +24,7 @@ fun ExerciseScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color(0xFFF5EEDC))
             .padding(16.dp)
     ) {
         // Contenido principal de la pantalla
