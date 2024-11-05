@@ -3,26 +3,19 @@ package com.uvg.myapplication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -38,17 +31,21 @@ fun NutriFitLoginScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5EEDC))
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
+                )
+            )
             .padding(16.dp),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome back to NutriFit",
-            fontSize = 24.sp,
-            color = Color.Black,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 32.dp),
+            text = "Welcome Back!",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF333333),
+            modifier = Modifier.padding(bottom = 32.dp),
             textAlign = TextAlign.Center
         )
 
@@ -57,8 +54,8 @@ fun NutriFitLoginScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
+                .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
+                .padding(12.dp)
         ) {
             BasicTextField(
                 value = username,
@@ -79,8 +76,8 @@ fun NutriFitLoginScreen(navController: NavController) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
-                .border(1.dp, Color.Gray, shape = RoundedCornerShape(8.dp))
-                .padding(8.dp)
+                .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
+                .padding(12.dp)
         ) {
             BasicTextField(
                 value = password,
@@ -100,41 +97,42 @@ fun NutriFitLoginScreen(navController: NavController) {
         // Texto de "Olvidó su contraseña" con navegación
         Text(
             text = "Forgot your password?",
-            color = Color.Gray,
+            color = Color(0xFF00A86B),
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate("change_password") // Navega a la pantalla de cambio de contraseña
+                    navController.navigate("change_password")
                 },
             textAlign = TextAlign.End
         )
 
         // Botón de "Iniciar sesión" con navegación
         Button(
-            onClick = { navController.navigate("exercises_main") }, // Navega a la pantalla de ejercicios
+            onClick = { navController.navigate("exercises_main") },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp),
+                .height(50.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00C853)
+                containerColor = Color(0xFF00A86B)
             ),
-            shape = RoundedCornerShape(8.dp)
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text(text = "Log In", color = Color.White)
+            Text(text = "Sign In", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
         }
 
         // Texto de "Registrarse" con navegación
         Text(
             text = "New user? Sign Up",
-            color = Color.Black,
+            color = Color(0xFF333333),
             modifier = Modifier
                 .padding(top = 16.dp)
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate("create_user") // Navega a la pantalla de creación de usuario
+                    navController.navigate("create_user")
                 },
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            fontSize = 16.sp
         )
     }
 }
