@@ -18,16 +18,20 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun ExerciseScreen(navController: NavController) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF5EEDC))
             .padding(16.dp)
+            .verticalScroll(scrollState) // Habilitar el scroll vertical
     ) {
-        // Contenido principal de la pantalla
         val painter = rememberImagePainter(
             data = "PlaceHolder",
             builder = {

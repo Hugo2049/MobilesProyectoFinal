@@ -21,6 +21,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.*
+
 @Composable
 fun SetGoalsScreen(navController: NavController) {
 
@@ -36,11 +40,14 @@ fun SetGoalsScreen(navController: NavController) {
     var selectedGoal by remember { mutableStateOf("") }
     val goalOptions = listOf("Lose Weight", "Gain Muscle", "Maintain")
 
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-            .background(Color(0xFFF5EEDC)),
+            .background(Color(0xFFF5EEDC))
+            .verticalScroll(scrollState), // Habilitar scroll
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -111,6 +118,7 @@ fun SetGoalsScreen(navController: NavController) {
         }
     }
 }
+
 
 @Composable
 fun CustomTextField(

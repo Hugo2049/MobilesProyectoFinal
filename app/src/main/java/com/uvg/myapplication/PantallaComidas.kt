@@ -1,6 +1,5 @@
 package com.uvg.myapplication
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,15 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 
 @Composable
 fun MealsScreen(navController: NavController) {
+    val scrollState = rememberScrollState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0xFFF5EEDC))
             .padding(16.dp)
+            .verticalScroll(scrollState) // Habilitar el scroll vertical
     ) {
         // Parte superior con el selector de fechas
         DateSelector()
@@ -59,7 +62,8 @@ fun MealsScreen(navController: NavController) {
         ) {
             Text("View Full Recipe", color = Color.White)
         }
-        Spacer(modifier = Modifier.height(400.dp))
+
+        Spacer(modifier = Modifier.height(125.dp))
 
         // Barra de navegación inferior
         BottomNavBar(navController = navController)
@@ -82,7 +86,6 @@ fun DateSelector() {
             Text("Mon, 2/24", color = Color.Black)
         }
     }
-
 }
 
 @Composable

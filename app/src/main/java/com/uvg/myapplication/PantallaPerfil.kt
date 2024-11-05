@@ -24,52 +24,80 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.ButtonDefaults
+
 @Composable
 fun ProfileScreen(navController: NavController) {
-    Column(
+    Box(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(Color(0xFFF5EEDC))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(16.dp)
     ) {
-
-        // Título "Your Profile"
-        Text(
-            text = "Your Profile",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 32.dp)
-        )
-
-        // Fila 1: Fitness Level
-        ProfileItem(text = "Fitness Level", Modifier.padding(bottom = 32.dp))
-
-        // Fila 2: Dietary Preferences
-        ProfileItem(text = "Dietary Preferences", Modifier.padding(bottom = 32.dp))
-
-        // Botón de Update Profile
-        Button(
-            onClick = {  navController.navigate("profile_info")  },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .height(48.dp),
-            shape = RoundedCornerShape(8.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFEFEFEF) // Gris claro
-            )
+                .padding(bottom = 64.dp), // Espacio para la barra de navegación
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Update Profile", fontSize = 16.sp, color = Color.Black)
-        }
-        Spacer(modifier = Modifier.height(500.dp))
+            // Título "Your Profile"
+            Text(
+                text = "Your Profile",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 32.dp)
+            )
 
-        // Barra de navegación inferior
-        BottomNavBar(navController = navController)
+            // Fila 1: Fitness Level
+            ProfileItem(text = "Fitness Level", Modifier.padding(bottom = 32.dp))
+
+            // Fila 2: Dietary Preferences
+            ProfileItem(text = "Dietary Preferences", Modifier.padding(bottom = 32.dp))
+
+            // Botón de Update Profile
+            Button(
+                onClick = { navController.navigate("profile_info") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .height(48.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFEFEFEF) // Gris claro
+                )
+            ) {
+                Text(text = "Update Profile", fontSize = 16.sp, color = Color.Black)
+            }
+
+            // Botón de Logout
+            Button(
+                onClick = { navController.navigate("login") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .height(48.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFEFEFEF) // Gris claro
+                )
+            ) {
+                Text(text = "Log out", fontSize = 16.sp, color = Color.Black)
+            }
+        }
+
+        // Barra de navegación inferior en un Box para anclarla al fondo
+        Box(
+            modifier = Modifier
+                .align(Alignment.BottomCenter) // Ubica la barra en la parte inferior
+                .fillMaxWidth()
+        ) {
+            BottomNavBar(navController = navController)
+        }
     }
 }
 
@@ -79,6 +107,7 @@ fun ProfileItem(text: String, modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .clickable { /* Acción al hacer clic */ }
+            .padding(vertical = 8.dp)
     ) {
         Text(
             text = text,
