@@ -61,7 +61,7 @@ fun SetGoalsScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()) // Enable horizontal scroll here
+                .horizontalScroll(rememberScrollState())
         ) {
             frequencies.forEach { freq ->
                 FrequencyChip(
@@ -78,7 +78,7 @@ fun SetGoalsScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()) // Optional: Make this scrollable too
+                .horizontalScroll(rememberScrollState())
         ) {
             dietaryOptions.forEach { option ->
                 FrequencyChip(
@@ -95,7 +95,7 @@ fun SetGoalsScreen(navController: NavController) {
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()) // Optional: Make this scrollable too
+                .horizontalScroll(rememberScrollState())
         ) {
             goalOptions.forEach { g ->
                 FrequencyChip(
