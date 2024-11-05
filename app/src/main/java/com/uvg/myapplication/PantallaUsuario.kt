@@ -1,18 +1,18 @@
-// SetGoalsScreen.kt
 package com.uvg.myapplication
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -20,10 +20,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.layout.*
 
 @Composable
 fun SetGoalsScreen(navController: NavController) {
@@ -47,25 +46,22 @@ fun SetGoalsScreen(navController: NavController) {
             .fillMaxSize()
             .padding(16.dp)
             .background(Color(0xFFF5EEDC))
-            .verticalScroll(scrollState), // Habilitar scroll
+            .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
-        // Campo para la edad
+        // Text fields for age, weight, and height
         CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
-
-        // Campo para el peso
         CustomTextField(value = weight, onValueChange = { weight = it }, label = "Weight")
-
-        // Campo para la altura
         CustomTextField(value = height, onValueChange = { height = it }, label = "Height")
 
-        // Selección de la frecuencia de ejercicio
+        // Exercise frequency selection with horizontal scrolling
         Text("How often do you exercise?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()) // Enable horizontal scroll here
         ) {
             frequencies.forEach { freq ->
                 FrequencyChip(
@@ -76,11 +72,13 @@ fun SetGoalsScreen(navController: NavController) {
             }
         }
 
-        // Restricciones dietéticas
+        // Dietary restrictions selection
         Text("Do you have any dietary restrictions?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()) // Optional: Make this scrollable too
         ) {
             dietaryOptions.forEach { option ->
                 FrequencyChip(
@@ -91,11 +89,13 @@ fun SetGoalsScreen(navController: NavController) {
             }
         }
 
-        // Selección de objetivo
+        // Goal selection
         Text("What is your goal?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()) // Optional: Make this scrollable too
         ) {
             goalOptions.forEach { g ->
                 FrequencyChip(
@@ -106,11 +106,9 @@ fun SetGoalsScreen(navController: NavController) {
             }
         }
 
-        // Botón de continuar
+        // Continue button
         Button(
-            onClick = {
-                navController.navigate("Exercises_main")
-            },
+            onClick = { navController.navigate("Exercises_main") },
             modifier = Modifier.fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00AA00))
         ) {
@@ -118,7 +116,6 @@ fun SetGoalsScreen(navController: NavController) {
         }
     }
 }
-
 
 @Composable
 fun CustomTextField(
@@ -129,7 +126,7 @@ fun CustomTextField(
     showPassword: Boolean = false,
     onShowPasswordChange: (() -> Unit)? = null
 ) {
-    Column {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(label, style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
         BasicTextField(
             value = value,
@@ -139,8 +136,9 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
-                .background(Color(0xFFF0F0F0))
-                .padding(8.dp),
+                .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+            cursorBrush = SolidColor(Color.Black),
             visualTransformation = if (isPassword && !showPassword) PasswordVisualTransformation() else VisualTransformation.None
         )
         if (isPassword && onShowPasswordChange != null) {
@@ -159,13 +157,19 @@ fun CustomTextField(
 fun FrequencyChip(text: String, isSelected: Boolean, onSelected: () -> Unit) {
     Box(
         modifier = Modifier
+            .widthIn(min = 80.dp)
             .background(
-                if (isSelected) Color(0xFFEEE0BB) else Color(0xFFF0F0F0),
-                shape = MaterialTheme.shapes.small
+                color = if (isSelected) Color(0xFFEEE0BB) else Color(0xFFF0F0F0),
+                shape = RoundedCornerShape(16.dp)
             )
             .clickable { onSelected() }
-            .padding(8.dp)
+            .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Text(text)
+        Text(
+            text = text,
+            color = if (isSelected) Color.Black else Color.Gray,
+            fontWeight = FontWeight.Medium,
+            maxLines = 1
+        )
     }
 }
