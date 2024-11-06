@@ -27,88 +27,92 @@ import java.util.*
 fun WorkoutPlanScreen(navController: NavController) {
     val scrollState = rememberScrollState()
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFE8F5E9), Color(0xFFC8E6C9)) // Verde suave para el fondo
+                    colors = listOf(Color(0xFFE8F5E9), Color(0xFFC8E6C9)) // Fondo verde suave
                 )
             )
-            .verticalScroll(scrollState)
-            .padding(16.dp)
     ) {
-        WorkoutCalendar()
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        Text(
-            text = "Personalized Plan",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF1B5E20) // Verde oscuro
-        )
-
-        Text(
-            text = "Get Lean in 2 Weeks",
-            fontSize = 18.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = Color(0xFF2E7D32), // Verde medio
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
-        )
-
-        Text(
-            text = "We've created a plan to help you get lean. It's designed for beginners, and it's easy to follow.",
-            fontSize = 14.sp,
-            color = Color(0xFF33691E) // Verde oscuro
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Lista de ejercicios
-        WorkoutDay("Day 1: Monday Chest & Triceps")
-        WorkoutDay("Day 2: Tuesday Back & Biceps")
-        WorkoutDay("Day 3: Wednesday Rest")
-        WorkoutDay("Day 4: Thursday Shoulders")
-        WorkoutDay("Day 5: Friday Legs")
-        WorkoutDay("Day 6: Saturday Arms")
-        WorkoutDay("Day 7: Sunday Rest")
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botón para iniciar el plan
-        Button(
-            onClick = { navController.navigate("exercises_specific") },
+        // Contenido principal en columna con scroll
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            shape = RoundedCornerShape(25.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
+                .fillMaxSize()
+                .padding(bottom = 56.dp) // Deja espacio para la barra de navegación inferior
+                .verticalScroll(scrollState)
+                .padding(16.dp)
         ) {
+            WorkoutCalendar()
+
+            Spacer(modifier = Modifier.height(20.dp))
+
             Text(
-                text = "Start Plan",
-                fontSize = 18.sp,
-                color = Color.White
+                text = "Personalized Plan",
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF1B5E20) // Verde oscuro
             )
+
+            Text(
+                text = "Get Lean in 2 Weeks",
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color(0xFF2E7D32), // Verde medio
+                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+            )
+
+            Text(
+                text = "We've created a plan to help you get lean. It's designed for beginners, and it's easy to follow.",
+                fontSize = 14.sp,
+                color = Color(0xFF33691E) // Verde oscuro
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Lista de ejercicios en boxes individuales
+            WorkoutDay("Day 1: Monday Chest & Triceps")
+            WorkoutDay("Day 2: Tuesday Back & Biceps")
+            WorkoutDay("Day 3: Wednesday Rest")
+            WorkoutDay("Day 4: Thursday Shoulders")
+            WorkoutDay("Day 5: Friday Legs")
+            WorkoutDay("Day 6: Saturday Arms")
+            WorkoutDay("Day 7: Sunday Rest")
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón para iniciar el plan
+            Button(
+                onClick = { navController.navigate("exercises_specific") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
+            ) {
+                Text(
+                    text = "Start Plan",
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            }
+            Button(onClick = { }) {
+                
+            }
         }
+        
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Spacer flexible para empujar la barra de navegación al fondo de la pantalla
-        Spacer(modifier = Modifier.weight(1f))
-
-        // Barra de navegación inferior que ocupa todo el ancho y está fijada en la parte inferior
-        Box(
+        // Barra de navegación inferior fija en la parte inferior
+        BottomNavBar(
+            navController = navController,
             modifier = Modifier
-                .fillMaxWidth()
-                .background(Color(0xFF81C784)) // Verde claro para la barra de navegación
-                .padding(vertical = 8.dp)
-        ) {
-            BottomNavBar(navController = navController)
-        }
+                .align(Alignment.BottomCenter) // Alinea la barra de navegación en la parte inferior
+        )
     }
 }
 
+// La función WorkoutDay permanece igual
 @Composable
 fun WorkoutDay(dayText: String) {
     Row(
@@ -135,6 +139,7 @@ fun WorkoutDay(dayText: String) {
     }
 }
 
+// La función WorkoutCalendar permanece igual
 @Composable
 fun WorkoutCalendar() {
     val today = LocalDate.now()
