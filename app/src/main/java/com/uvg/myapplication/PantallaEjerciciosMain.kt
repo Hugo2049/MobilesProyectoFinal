@@ -1,6 +1,7 @@
 package com.uvg.myapplication
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -32,7 +33,7 @@ fun WorkoutPlanScreen(navController: NavController) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFE8F5E9), Color(0xFFC8E6C9)) // Fondo verde suave
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo verde suave
                 )
             )
     ) {
@@ -97,11 +98,17 @@ fun WorkoutPlanScreen(navController: NavController) {
                     color = Color.White
                 )
             }
-            Button(onClick = { }) {
-                
-            }
+            Button(
+                onClick = { navController.navigate("exercises_specific") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFFE8F5E9))
+            ){  }
+
         }
-        
+
 
         // Barra de navegación inferior fija en la parte inferior
         BottomNavBar(
@@ -115,27 +122,39 @@ fun WorkoutPlanScreen(navController: NavController) {
 // La función WorkoutDay permanece igual
 @Composable
 fun WorkoutDay(dayText: String) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(
-            text = dayText,
-            fontSize = 16.sp,
-            color = Color(0xFF1B5E20) // Verde oscuro
-        )
-
-        Checkbox(
-            checked = false,
-            onCheckedChange = { /* Handle checkbox change */ },
-            colors = CheckboxDefaults.colors(
-                checkedColor = Color(0xFF66BB6A), // Verde claro
-                uncheckedColor = Color(0xFF2E7D32) // Verde medio
+            .padding(vertical = 8.dp)
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(12.dp)
             )
-        )
+            .border(1.dp, Color(0xFF66BB6A), RoundedCornerShape(12.dp)) // Borde verde claro
+            .padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.CenterStart),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = dayText,
+                fontSize = 16.sp,
+                color = Color(0xFF1B5E20) // Verde oscuro
+            )
+
+            Checkbox(
+                checked = false,
+                onCheckedChange = { /* Handle checkbox change */ },
+                colors = CheckboxDefaults.colors(
+                    checkedColor = Color(0xFF66BB6A), // Verde claro
+                    uncheckedColor = Color(0xFF2E7D32) // Verde medio
+                )
+            )
+        }
     }
 }
 

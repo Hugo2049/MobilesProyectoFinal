@@ -22,7 +22,7 @@ fun MainScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(bottom = 56.dp) // Ajuste para dar espacio a la BottomNavBar
         ) {
-            // Aquí va el contenido principal de la pantalla, como WorkoutPlanScreen()
+
         }
 
         // Barra de navegación inferior fija
@@ -40,7 +40,8 @@ fun BottomNavBar(
     modifier: Modifier = Modifier // Añadimos un parámetro de Modifier para la alineación
 ) {
     NavigationBar(
-        containerColor = Color(0xFF66BB6A), // Fondo verde claro para la barra de navegación
+
+        containerColor = Color(0xFF66BB6A ), // Fondo verde claro para la barra de navegación
         contentColor = Color.White, // Color blanco para el contenido (iconos y texto)
         tonalElevation = 8.dp,
         modifier = modifier
@@ -52,7 +53,7 @@ fun BottomNavBar(
             onClick = { navController.navigate("exercises_main") },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White, // Blanco para icono seleccionado
-                unselectedIconColor = Color(0xFF1B5E20), // Verde oscuro para icono no seleccionado
+                unselectedIconColor = Color(0xFFDDFFDD), // Verde oscuro para icono no seleccionado
                 selectedTextColor = Color.White, // Blanco para texto seleccionado
                 unselectedTextColor = Color(0xFF1B5E20) // Verde oscuro para texto no seleccionado
             )
@@ -65,7 +66,7 @@ fun BottomNavBar(
             onClick = { navController.navigate("meals") },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White,
-                unselectedIconColor = Color(0xFF1B5E20),
+                unselectedIconColor = Color(0xFFDDFFDD),
                 selectedTextColor = Color.White,
                 unselectedTextColor = Color(0xFF1B5E20)
             )
@@ -78,7 +79,7 @@ fun BottomNavBar(
             onClick = { navController.navigate("main_profile") },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White,
-                unselectedIconColor = Color(0xFF1B5E20),
+                unselectedIconColor = Color(0xFFDDFFDD),
                 selectedTextColor = Color.White,
                 unselectedTextColor = Color(0xFF1B5E20)
             )
