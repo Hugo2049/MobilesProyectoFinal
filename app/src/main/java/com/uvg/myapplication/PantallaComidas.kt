@@ -1,17 +1,7 @@
 package com.uvg.myapplication
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -23,19 +13,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun MealsScreen(navController: NavController) {
@@ -45,7 +31,7 @@ fun MealsScreen(navController: NavController) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFE0F7FA), Color(0xFFB2EBF2)) // Fondo en tonos azulados
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado verde claro
                 )
             )
     ){
@@ -80,9 +66,8 @@ fun MealsScreen(navController: NavController) {
             }
 
             Spacer(modifier = Modifier.height(125.dp))
-
-
         }
+
         // Barra de navegación inferior
         BottomNavBar(
             navController = navController,
@@ -134,11 +119,10 @@ fun MealItem(title: String) {
             .clip(RoundedCornerShape(16.dp)) // Bordes más redondeados
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFB2EBF2), Color(0xFFE0F7FA)) // Gradiente suave en tonos azulados
+                    colors = listOf(Color(0xFFDEEDC0), Color(0xFFB4D8A6)) // Gradiente en tonos verde suave y beige
                 )
             )
             .padding(16.dp) // Espacio interno
-             // Sombra sutil
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically
