@@ -2,21 +2,15 @@ package com.uvg.myapplication
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -24,15 +18,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.ButtonDefaults
-
 @Composable
 fun ProfileScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5EEDC))
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado verde suave
+                )
+            )
             .padding(16.dp)
     ) {
         Column(
@@ -48,56 +43,54 @@ fun ProfileScreen(navController: NavController) {
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
+                color = Color(0xFF1B5E20), // Verde oscuro
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 32.dp)
             )
 
             // Fila 1: Fitness Level
-            ProfileItem(text = "Fitness Level", Modifier.padding(bottom = 32.dp))
+            ProfileItem(text = "Fitness Level", Modifier.padding(bottom = 16.dp))
 
             // Fila 2: Dietary Preferences
-            ProfileItem(text = "Dietary Preferences", Modifier.padding(bottom = 32.dp))
+            ProfileItem(text = "Dietary Preferences", Modifier.padding(bottom = 16.dp))
+
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Botón de Update Profile
             Button(
                 onClick = { navController.navigate("profile_info") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .height(48.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEFEFEF) // Gris claro
-                )
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro
             ) {
-                Text(text = "Update Profile", fontSize = 16.sp, color = Color.Black)
+                Text(text = "Update Profile", fontSize = 16.sp, color = Color.White)
             }
+
+            Spacer(modifier = Modifier.height(12.dp))
 
             // Botón de Logout
             Button(
                 onClick = { navController.navigate("login") },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .height(48.dp),
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFEFEFEF) // Gris claro
-                )
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFFE8F5E9)) // Verde suave
             ) {
-                Text(text = "Log out", fontSize = 16.sp, color = Color.Black)
+                Text(text = "Log out", fontSize = 16.sp, color = Color(0xFF1B5E20)) // Verde oscuro
             }
         }
 
-        // Barra de navegación inferior en un Box para anclarla al fondo
-        Box(
+        // Barra de navegación inferior en la parte inferior con fondo degradado
+        BottomNavBar(
+            navController = navController,
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Ubica la barra en la parte inferior
+                .align(Alignment.BottomCenter)
                 .fillMaxWidth()
-        ) {
-            BottomNavBar(navController = navController)
-        }
+        )
     }
 }
 
@@ -107,21 +100,27 @@ fun ProfileItem(text: String, modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxWidth()
             .clickable { /* Acción al hacer clic */ }
-            .padding(vertical = 8.dp)
+            .background(Color.White, shape = RoundedCornerShape(12.dp))
+            .padding(16.dp)
     ) {
-        Text(
-            text = text,
-            fontSize = 18.sp,
-            color = Color.Black,
-            modifier = Modifier.align(Alignment.CenterStart)
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = text,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium,
+                color = Color(0xFF1B5E20), // Verde oscuro
+                modifier = Modifier.weight(1f)
+            )
 
-        // Icono de flecha para navegación
-        Text(
-            text = ">",
-            fontSize = 18.sp,
-            color = Color.Gray,
-            modifier = Modifier.align(Alignment.CenterEnd)
-        )
+            // Icono de flecha para navegación
+            Text(
+                text = ">",
+                fontSize = 18.sp,
+                color = Color.Gray
+            )
+        }
     }
 }
