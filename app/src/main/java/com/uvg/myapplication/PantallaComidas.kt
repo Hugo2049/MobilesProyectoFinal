@@ -30,10 +30,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.Brush
 
 @Composable
 fun MealsScreen(navController: NavController) {
     val scrollState = rememberScrollState()
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo verde suave
+                )
+            )
+    ){
 
     Column(
         modifier = Modifier
@@ -66,10 +76,15 @@ fun MealsScreen(navController: NavController) {
         Spacer(modifier = Modifier.height(125.dp))
 
         // Barra de navegación inferior
-        BottomNavBar(navController = navController)
+       // BottomNavBar(navController = navController)
+        }
+        BottomNavBar(
+            navController = navController,
+            modifier = Modifier
+                .align(Alignment.BottomCenter) // Alinea la barra de navegación en la parte inferior
+        )
     }
 }
-
 @Composable
 fun DateSelector() {
     Row(
