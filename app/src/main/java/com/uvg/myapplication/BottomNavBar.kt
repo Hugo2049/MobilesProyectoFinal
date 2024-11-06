@@ -41,7 +41,7 @@ fun BottomNavBar(
 ) {
     NavigationBar(
 
-        containerColor = Color(0xFF66BB6A ), // Fondo verde claro para la barra de navegación
+        containerColor = Color(0xFF00796B ), // Fondo verde claro para la barra de navegación
         contentColor = Color.White, // Color blanco para el contenido (iconos y texto)
         tonalElevation = 8.dp,
         modifier = modifier
