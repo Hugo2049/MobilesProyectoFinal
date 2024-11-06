@@ -11,6 +11,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
@@ -29,7 +30,11 @@ fun WorkoutPlanScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5EEDC))
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(Color(0xFFE8F5E9), Color(0xFFC8E6C9)) // Verde suave para el fondo
+                )
+            )
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
@@ -40,19 +45,22 @@ fun WorkoutPlanScreen(navController: NavController) {
         Text(
             text = "Personalized Plan",
             fontSize = 24.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1B5E20) // Verde oscuro
         )
 
         Text(
             text = "Get Lean in 2 Weeks",
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
+            color = Color(0xFF2E7D32), // Verde medio
             modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
         )
 
         Text(
             text = "We've created a plan to help you get lean. It's designed for beginners, and it's easy to follow.",
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            color = Color(0xFF33691E) // Verde oscuro
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -75,7 +83,7 @@ fun WorkoutPlanScreen(navController: NavController) {
                 .fillMaxWidth()
                 .height(50.dp),
             shape = RoundedCornerShape(25.dp),
-            colors = ButtonDefaults.buttonColors(Color(0xFF4CAF50))
+            colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
         ) {
             Text(
                 text = "Start Plan",
@@ -86,11 +94,20 @@ fun WorkoutPlanScreen(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Barra de navegación inferior
-        BottomNavBar(navController = navController)
+        // Spacer flexible para empujar la barra de navegación al fondo de la pantalla
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Barra de navegación inferior que ocupa todo el ancho y está fijada en la parte inferior
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color(0xFF81C784)) // Verde claro para la barra de navegación
+                .padding(vertical = 8.dp)
+        ) {
+            BottomNavBar(navController = navController)
+        }
     }
 }
-
 
 @Composable
 fun WorkoutDay(dayText: String) {
@@ -101,11 +118,19 @@ fun WorkoutDay(dayText: String) {
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(text = dayText, fontSize = 16.sp)
+        Text(
+            text = dayText,
+            fontSize = 16.sp,
+            color = Color(0xFF1B5E20) // Verde oscuro
+        )
 
         Checkbox(
             checked = false,
-            onCheckedChange = { /* Handle checkbox change */ }
+            onCheckedChange = { /* Handle checkbox change */ },
+            colors = CheckboxDefaults.colors(
+                checkedColor = Color(0xFF66BB6A), // Verde claro
+                uncheckedColor = Color(0xFF2E7D32) // Verde medio
+            )
         )
     }
 }
@@ -130,20 +155,25 @@ fun WorkoutCalendar() {
             // Mes anterior
             ClickableText(
                 text = AnnotatedString("<"),
-                onClick = { /* Navegar al mes anterior */ }
+                onClick = { /* Navegar al mes anterior */ },
+                modifier = Modifier.padding(8.dp),
+                style = androidx.compose.ui.text.TextStyle(color = Color(0xFF1B5E20)) // Verde oscuro
             )
 
             // Mes y año
             Text(
                 text = month.month.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + month.year,
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                color = Color(0xFF1B5E20) // Verde oscuro
             )
 
             // Mes siguiente
             ClickableText(
                 text = AnnotatedString(">"),
-                onClick = { /* Navegar al mes siguiente */ }
+                onClick = { /* Navegar al mes siguiente */ },
+                modifier = Modifier.padding(8.dp),
+                style = androidx.compose.ui.text.TextStyle(color = Color(0xFF1B5E20)) // Verde oscuro
             )
         }
 
@@ -155,7 +185,7 @@ fun WorkoutCalendar() {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             daysOfWeek.forEach { day ->
-                Text(text = day, fontSize = 16.sp)
+                Text(text = day, fontSize = 16.sp, color = Color(0xFF33691E)) // Verde oscuro
             }
         }
 
@@ -178,7 +208,7 @@ fun WorkoutCalendar() {
                     Text(
                         text = if (currentDay.monthValue == month.monthValue) currentDay.dayOfMonth.toString() else "",
                         fontSize = 16.sp,
-                        color = if (selectedDate.value == currentDay) Color.Green else Color.Black,
+                        color = if (selectedDate.value == currentDay) Color(0xFF66BB6A) else Color(0xFF1B5E20), // Verde claro para la fecha seleccionada
                         modifier = Modifier
                             .padding(8.dp)
                             .clickable {
