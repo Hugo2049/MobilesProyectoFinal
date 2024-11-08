@@ -1,10 +1,9 @@
 package com.uvg.myapplication
 
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -15,18 +14,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun NutriFitLoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
+    val db = FirebaseFirestore.getInstance()
 
     Column(
         modifier = Modifier
@@ -41,98 +43,89 @@ fun NutriFitLoginScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Welcome Back!",
+            "Welcome back!",
             fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
             color = Color(0xFF333333),
-            modifier = Modifier.padding(bottom = 32.dp),
-            textAlign = TextAlign.Center
+            modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Campo de nombre de usuario
-        Box(
+        BasicTextField(
+            value = username,
+            onValueChange = { username = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
-                .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
-                .padding(12.dp)
-        ) {
-            BasicTextField(
-                value = username,
-                onValueChange = { username = it },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                decorationBox = { innerTextField ->
-                    if (username.isEmpty()) {
-                        Text("Username", color = Color.Gray)
-                    }
-                    innerTextField()
+                .padding(vertical = 8.dp)
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+            decorationBox = { innerTextField ->
+                if (username.isEmpty()) {
+                    Text("Username", color = Color.Gray, fontSize = 16.sp)
                 }
-            )
-        }
+                innerTextField()
+            }
+        )
 
-        // Campo de contraseña
-        Box(
+        BasicTextField(
+            value = password,
+            onValueChange = { password = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp)
-                .border(1.dp, Color.LightGray, shape = RoundedCornerShape(12.dp))
-                .padding(12.dp)
-        ) {
-            BasicTextField(
-                value = password,
-                onValueChange = { password = it },
-                modifier = Modifier.fillMaxWidth(),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = PasswordVisualTransformation(),
-                decorationBox = { innerTextField ->
-                    if (password.isEmpty()) {
-                        Text("Password", color = Color.Gray)
-                    }
-                    innerTextField()
+                .padding(vertical = 8.dp)
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+            decorationBox = { innerTextField ->
+                if (password.isEmpty()) {
+                    Text("Password", color = Color.Gray, fontSize = 16.sp)
                 }
-            )
-        }
+                innerTextField()
+            }
+        )
 
-        // Texto de "Olvidó su contraseña" con navegación
         Text(
             text = "Forgot your password?",
             color = Color(0xFF00A86B),
             modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth()
-                .clickable {
-                    navController.navigate("change_password")
-                },
-            textAlign = TextAlign.End
+                .padding(vertical = 16.dp)
+                .clickable { navController.navigate("forgot_password") }
         )
 
-        // Botón de "Iniciar sesión" con navegación
         Button(
-            onClick = { navController.navigate("exercises_main") },
+            onClick = {
+                db.collection("users")
+                    .whereEqualTo("username", username)
+                    .whereEqualTo("password", password)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (!documents.isEmpty) {
+                            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                            navController.navigate("exercises_main")
+                        } else {
+                            Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    .addOnFailureListener {
+                        Toast.makeText(context, "Error logging in: ${it.message}", Toast.LENGTH_SHORT).show()
+                    }
+            },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(50.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00A86B)
-            ),
-            shape = RoundedCornerShape(12.dp)
+                .padding(vertical = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00A86B))
         ) {
-            Text(text = "Sign In", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
+            Text(text = "Log In", color = Color.White, fontSize = 18.sp)
         }
 
-        // Texto de "Registrarse" con navegación
         Text(
-            text = "New user? Sign Up",
+            text = "New user? Sign up",
             color = Color(0xFF333333),
             modifier = Modifier
                 .padding(top = 16.dp)
-                .fillMaxWidth()
-                .clickable {
-                    navController.navigate("create_user")
-                },
-            textAlign = TextAlign.Center,
-            fontSize = 16.sp
+                .clickable { navController.navigate("create_user") }
         )
     }
 }

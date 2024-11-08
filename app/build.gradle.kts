@@ -56,6 +56,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("androidx.navigation:navigation-compose:2.5.3")
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth.ktx)
     debugImplementation(libs.ui.tooling)
     implementation(libs.material3)
     implementation(libs.androidx.material.icons.extended)
