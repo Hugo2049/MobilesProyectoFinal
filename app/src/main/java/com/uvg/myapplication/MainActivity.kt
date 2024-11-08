@@ -27,8 +27,9 @@ class MainActivity : ComponentActivity() {
                     composable("meals") {MealsScreen(navController)  }//
                     composable("exercises_specific") {ExerciseScreen(navController) }//
                     composable("profile_info") {ProfileInfoScreen(navController) }
-                    composable("main_profile") {ProfileScreen(navController)} // COPIAS ESTE
+                    composable("main_profile") {ProfileScreen(navController)}
                     composable("recipes") {RecipeScreen(navController)}//
+                    composable("check_user") {ProfileCheckUser(navController)}
                 }
             }
         }

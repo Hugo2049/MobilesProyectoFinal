@@ -91,7 +91,7 @@ fun NutriFitLoginScreen(navController: NavController) {
             color = Color(0xFF00A86B),
             modifier = Modifier
                 .padding(vertical = 16.dp)
-                .clickable { navController.navigate("change_password") }
+                .clickable { navController.navigate("check_user") }
         )
 
         Button(
