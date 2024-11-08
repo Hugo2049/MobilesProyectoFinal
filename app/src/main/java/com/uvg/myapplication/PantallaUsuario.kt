@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
@@ -44,8 +45,12 @@ fun SetGoalsScreen(navController: NavController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
+                )
+            )
             .padding(16.dp)
-            .background(Color(0xFFF5EEDC))
             .verticalScroll(scrollState),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -109,10 +114,14 @@ fun SetGoalsScreen(navController: NavController) {
         // Continue button
         Button(
             onClick = { navController.navigate("Exercises_main") },
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00AA00))
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .height(50.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00A86B)),
+            shape = RoundedCornerShape(16.dp)
         ) {
-            Text("Continue", color = Color.White)
+            Text("Continue", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
         }
     }
 }
@@ -136,20 +145,11 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 4.dp)
-                .background(Color(0xFFF0F0F0), RoundedCornerShape(8.dp))
+                .background(Color(0xFFF0F0F0), RoundedCornerShape(12.dp))
                 .padding(horizontal = 12.dp, vertical = 10.dp),
             cursorBrush = SolidColor(Color.Black),
             visualTransformation = if (isPassword && !showPassword) PasswordVisualTransformation() else VisualTransformation.None
         )
-        if (isPassword && onShowPasswordChange != null) {
-            Text(
-                text = if (showPassword) "Hide" else "Show",
-                modifier = Modifier
-                    .clickable { onShowPasswordChange() }
-                    .padding(4.dp),
-                color = Color.Blue
-            )
-        }
     }
 }
 
