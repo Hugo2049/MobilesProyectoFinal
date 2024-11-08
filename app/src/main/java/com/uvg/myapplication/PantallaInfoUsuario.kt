@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -27,16 +28,20 @@ fun ProfileInfoScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(20.dp)
-            .background(LightGrayBackground),
-        verticalArrangement = Arrangement.Top,
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
+                )
+            )
+            .padding(horizontal = 24.dp, vertical = 32.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Título de la página
         Text(
             text = "Profile",
-            fontSize = 28.sp,
+            fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             color = DarkerGrayText,
             modifier = Modifier.padding(bottom = 32.dp)
@@ -45,18 +50,19 @@ fun ProfileInfoScreen(navController: NavController) {
         // Sección para cambiar Username
         Text(
             text = "Username",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
             color = DarkerGrayText,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
         TextField(
             value = usernameState.value,
             onValueChange = { usernameState.value = it },
-            placeholder = { Text(text = "Enter your username") },
+            placeholder = { Text(text = "Enter your username", color = Color.Gray) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                .padding(8.dp)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -64,38 +70,40 @@ fun ProfileInfoScreen(navController: NavController) {
         // Sección para cambiar Password
         Text(
             text = "Password",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Medium,
             color = DarkerGrayText,
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 8.dp)
         )
         TextField(
             value = passwordState.value,
             onValueChange = { passwordState.value = it },
-            placeholder = { Text(text = "Enter your password") },
+            placeholder = { Text(text = "Enter your password", color = Color.Gray) },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
+                .background(Color.White, shape = RoundedCornerShape(12.dp))
+                .padding(8.dp)
         )
 
-        Spacer(modifier = Modifier.height(40.dp)) // Más espacio antes del botón
+        Spacer(modifier = Modifier.height(40.dp)) // Más espacio antes de los botones
 
         // Botón "Save Changes"
         Button(
             onClick = { /* Acción de guardar cambios */ },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp)
+                .padding(horizontal = 16.dp)
                 .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = GrayButton,
-                contentColor = DarkerGrayText
+                containerColor = Color(0xFF00A86B),
+                contentColor = Color.White
             )
         ) {
             Text(
                 text = "Save Changes",
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
             )
         }
 
@@ -106,9 +114,9 @@ fun ProfileInfoScreen(navController: NavController) {
             onClick = { navController.navigate("main_profile") },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp)
+                .padding(horizontal = 16.dp)
                 .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
                 containerColor = Color.LightGray,
                 contentColor = DarkerGrayText
@@ -116,7 +124,8 @@ fun ProfileInfoScreen(navController: NavController) {
         ) {
             Text(
                 text = "Cancel",
-                fontSize = 16.sp
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold
             )
         }
     }
