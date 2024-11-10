@@ -1,7 +1,5 @@
 package com.uvg.myapplication
 
-import ProfileInfoScreen
-//import ProfilePassScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,21 +15,25 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 val navController = rememberNavController()
 
-                // Configuración del NavHost para manejar las rutas de navegación
-                NavHost(navController = navController, startDestination = "login") {//
-                    composable("login") { NutriFitLoginScreen(navController) }//
-                    composable("exercises_main") { WorkoutPlanScreen(navController) }//
-                    composable("change_password") { ProfilePassScreen(navController) }//
-                    composable("create_user") { SignUpScreen(navController) }//
-                    composable("set_goals") { SetGoalsScreen(navController) }//
-                    composable("meals") {MealsScreen(navController)  }//
-                    composable("exercises_specific") {ExerciseScreen(navController) }//
-                    composable("profile_info") {ProfileInfoScreen(navController) }
-                    composable("main_profile") {ProfileScreen(navController)}
-                    composable("recipes") {RecipeScreen(navController)}//
-                    composable("check_user") {ProfileCheckUser(navController)}
+                NavHost(navController = navController, startDestination = "login") {
+                    composable("login") { NutriFitLoginScreen(navController) }
+                    composable("exercises_main") { WorkoutPlanScreen(navController) }
+                    composable("create_user") { SignUpScreen(navController) }
+                    composable("set_goals") { SetGoalsScreen(navController) }
+                    composable("meals") { MealsScreen(navController) }
+                    composable("exercises_specific") { ExerciseScreen(navController) }
+                    composable("main_profile") { ProfileScreen(navController) }
+                    composable("recipes") { RecipeScreen(navController) }
+                    composable("check_user") { ProfileCheckUser(navController) }
+                    composable("profile_info") { ProfileInfoScreen(navController)}
+                        composable("change_password/{username}") { backStackEntry ->
+                            val username = backStackEntry.arguments?.getString("username")
+                            if (username != null) {
+                                ProfilePassScreen(navController, username)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-}

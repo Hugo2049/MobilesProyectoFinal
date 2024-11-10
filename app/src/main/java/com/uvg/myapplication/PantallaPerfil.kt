@@ -64,7 +64,7 @@ fun ProfileScreen(navController: NavController) {
                     .fillMaxWidth()
                     .height(50.dp),
                 shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro
+                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A))
             ) {
                 Text(text = "Update Profile", fontSize = 16.sp, color = Color.White)
             }

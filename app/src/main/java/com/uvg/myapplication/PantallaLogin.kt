@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.firestore.FirebaseFirestore
+import android.content.Context
+
 
 @Composable
 fun NutriFitLoginScreen(navController: NavController) {
@@ -103,6 +105,12 @@ fun NutriFitLoginScreen(navController: NavController) {
                     .addOnSuccessListener { documents ->
                         if (!documents.isEmpty) {
                             Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+
+                            // Guardar el usuario en SharedPreferences
+                            val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+                            sharedPreferences.edit().putString("username", username).apply()
+
+                            // Navegar a la pantalla principal
                             navController.navigate("exercises_main")
                         } else {
                             Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
