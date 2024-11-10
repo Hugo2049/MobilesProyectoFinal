@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.exercise
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.uvg.myapplication.BottomNavBar
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle

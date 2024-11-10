@@ -6,6 +6,17 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.uvg.myapplication.creacion_usuario.SetGoalsScreen
+import com.uvg.myapplication.creacion_usuario.SignUpScreen
+import com.uvg.myapplication.exercise.ExerciseScreen
+import com.uvg.myapplication.exercise.WorkoutPlanScreen
+import com.uvg.myapplication.login.NutriFitLoginScreen
+import com.uvg.myapplication.login.ProfileCheckUser
+import com.uvg.myapplication.login.ProfilePassScreen
+import com.uvg.myapplication.meals.MealsScreen
+import com.uvg.myapplication.meals.RecipeScreen
+import com.uvg.myapplication.profile.ProfileInfoScreen
+import com.uvg.myapplication.profile.ProfileScreen
 import com.uvg.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
@@ -25,7 +36,7 @@ class MainActivity : ComponentActivity() {
                     composable("main_profile") { ProfileScreen(navController) }
                     composable("recipes") { RecipeScreen(navController) }
                     composable("check_user") { ProfileCheckUser(navController) }
-                    composable("profile_info") { ProfileInfoScreen(navController)}
+                    composable("profile_info") { ProfileInfoScreen(navController) }
                         composable("change_password/{username}") { backStackEntry ->
                             val username = backStackEntry.arguments?.getString("username")
                             if (username != null) {

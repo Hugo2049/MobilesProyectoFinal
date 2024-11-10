@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.profile
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.uvg.myapplication.BottomNavBar
 
 @Composable
 fun ProfileScreen(navController: NavController) {

@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.meals
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.uvg.myapplication.BottomNavBar
 
 @Composable
 fun RecipeScreen(navController: NavController) {

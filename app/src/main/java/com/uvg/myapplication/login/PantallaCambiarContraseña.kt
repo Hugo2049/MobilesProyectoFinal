@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.login
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -20,11 +20,12 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun ProfileCheckUser(navController: NavController) {
-    var username by remember { mutableStateOf("") }
+fun ProfilePassScreen(navController: NavController, username: String) {
+    var newPassword by remember { mutableStateOf("") }
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
 
@@ -41,26 +42,28 @@ fun ProfileCheckUser(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "First let's check your username",
+            text = "Now let's change your password",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF333333),
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
+        // Campo de texto para la nueva contraseña
         BasicTextField(
-            value = username,
-            onValueChange = { username = it },
+            value = newPassword,
+            onValueChange = { newPassword = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
                 .background(Color(0xFFFFFFFF))
                 .padding(horizontal = 16.dp, vertical = 12.dp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
             textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
             decorationBox = { innerTextField ->
-                if (username.isEmpty()) {
-                    Text("Username", color = Color.Gray, fontSize = 16.sp)
+                if (newPassword.isEmpty()) {
+                    Text("New Password", color = Color.Gray, fontSize = 16.sp)
                 }
                 innerTextField()
             }
@@ -70,22 +73,34 @@ fun ProfileCheckUser(navController: NavController) {
 
         Button(
             onClick = {
-                db.collection("users")
-                    .whereEqualTo("username", username)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        if (!documents.isEmpty) {
-                            // Navegar a `change_password` con el `username` como argumento
-                            navController.navigate("change_password/$username") {
-                                popUpTo("check_user") { inclusive = true }
+                if (newPassword.isNotEmpty()) {
+                    db.collection("users")
+                        .whereEqualTo("username", username)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            if (!documents.isEmpty) {
+                                val userId = documents.documents[0].id
+                                db.collection("users").document(userId)
+                                    .update("password", newPassword)
+                                    .addOnSuccessListener {
+                                        Toast.makeText(context, "Password updated successfully!", Toast.LENGTH_SHORT).show()
+                                        navController.navigate("login") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
+                                    }
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(context, "Error updating password: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                            } else {
+                                Toast.makeText(context, "User not found", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(context, "Error al verificar usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
-                    }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Error fetching user: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(context, "Please enter a new password", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -105,9 +120,10 @@ fun ProfileCheckUser(navController: NavController) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Botón "Cancel" para regresar a la pantalla de inicio de sesión
         Button(
             onClick = {
-                navController.navigateUp()
+                navController.navigate("login")
             },
             modifier = Modifier
                 .fillMaxWidth()

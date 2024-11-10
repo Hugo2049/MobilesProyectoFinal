@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.creacion_usuario
 
 import android.widget.Toast
 import androidx.compose.foundation.background

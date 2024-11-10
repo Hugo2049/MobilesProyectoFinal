@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.profile
 
 import android.content.Context
 import android.widget.Toast

@@ -1,4 +1,4 @@
-package com.uvg.myapplication
+package com.uvg.myapplication.creacion_usuario
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -56,9 +56,21 @@ fun SetGoalsScreen(navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // Text fields for age, weight, and height
-        CustomTextField(value = age, onValueChange = { age = it }, label = "Age")
-        CustomTextField(value = weight, onValueChange = { weight = it }, label = "Weight")
-        CustomTextField(value = height, onValueChange = { height = it }, label = "Height")
+        CustomTextField(
+            value = age,
+            onValueChange = { age = it },
+            label = "Age"
+        )
+        CustomTextField(
+            value = weight,
+            onValueChange = { weight = it },
+            label = "Weight"
+        )
+        CustomTextField(
+            value = height,
+            onValueChange = { height = it },
+            label = "Height"
+        )
 
         // Exercise frequency selection with horizontal scrolling
         Text("How often do you exercise?", style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Bold))
