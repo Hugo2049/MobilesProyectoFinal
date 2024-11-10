@@ -5,23 +5,26 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 
 @Composable
 fun ProfileCheckUser(navController: NavController) {
-    // Estado para la contraseña
-    val passwordState = remember { mutableStateOf("") }
+    // Estado para los campos de texto
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -37,25 +40,50 @@ fun ProfileCheckUser(navController: NavController) {
     ) {
         // Título de la pantalla
         Text(
-            text = "First lets check your username",
+            text = "First let's check your username",
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF333333),
             modifier = Modifier.padding(bottom = 32.dp)
         )
 
-        // Campo de texto para nueva contraseña
-        TextField(
-            value = passwordState.value,
-            onValueChange = { passwordState.value = it },
-            placeholder = { Text(text = "Enter your username", color = Color.Gray) },
+        // Campo de texto para el nombre de usuario
+        BasicTextField(
+            value = username,
+            onValueChange = { username = it },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
-                .background(Color(0xFFF5F5F5), shape = RoundedCornerShape(12.dp))
-                .padding(horizontal = 16.dp),
-            textStyle = androidx.compose.ui.text.TextStyle(color = Color.Black, fontSize = 16.sp),
-            singleLine = true
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+            decorationBox = { innerTextField ->
+                if (username.isEmpty()) {
+                    Text("Username", color = Color.Gray, fontSize = 16.sp)
+                }
+                innerTextField()
+            }
+        )
+
+        // Campo de texto para la contraseña
+        BasicTextField(
+            value = password,
+            onValueChange = { password = it },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            visualTransformation = PasswordVisualTransformation(),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
+            decorationBox = { innerTextField ->
+                if (password.isEmpty()) {
+                    Text("Password", color = Color.Gray, fontSize = 16.sp)
+                }
+                innerTextField()
+            }
         )
 
         Spacer(modifier = Modifier.height(40.dp)) // Espacio antes del botón
