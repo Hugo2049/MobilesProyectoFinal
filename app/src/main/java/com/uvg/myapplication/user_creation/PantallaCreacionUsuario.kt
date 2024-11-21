@@ -1,4 +1,4 @@
-package com.uvg.myapplication.creacion_usuario
+package com.uvg.myapplication.user_creation
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -86,9 +86,12 @@ fun SignUpScreen(navController: NavController) {
 
                 db.collection("users")
                     .add(user)
-                    .addOnSuccessListener {
+                    .addOnSuccessListener { documentReference ->
+                        val userId = documentReference.id // Obtén el ID generado automáticamente
+
+                        // Navegar a la pantalla de "SetGoalsScreen" pasando el userId
+                        navController.navigate("set_goals/$userId")
                         Toast.makeText(context, "Account created successfully!", Toast.LENGTH_SHORT).show()
-                        navController.navigate("set_goals") // Navega a la pantalla de SetGoalsScreen
                     }
                     .addOnFailureListener { e ->
                         Toast.makeText(context, "Failed to create account: ${e.message}", Toast.LENGTH_SHORT).show()

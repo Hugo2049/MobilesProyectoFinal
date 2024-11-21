@@ -6,8 +6,8 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.uvg.myapplication.creacion_usuario.SetGoalsScreen
-import com.uvg.myapplication.creacion_usuario.SignUpScreen
+import com.uvg.myapplication.user_creation.SetGoalsScreen
+import com.uvg.myapplication.user_creation.SignUpScreen
 import com.uvg.myapplication.exercise.ExerciseScreen
 import com.uvg.myapplication.exercise.WorkoutPlanScreen
 import com.uvg.myapplication.login.NutriFitLoginScreen
@@ -30,7 +30,10 @@ class MainActivity : ComponentActivity() {
                     composable("login") { NutriFitLoginScreen(navController) }
                     composable("exercises_main") { WorkoutPlanScreen(navController) }
                     composable("create_user") { SignUpScreen(navController) }
-                    composable("set_goals") { SetGoalsScreen(navController) }
+                    composable("set_goals/{userId}") { backStackEntry ->
+                        val userId = backStackEntry.arguments?.getString("userId") ?: ""
+                        SetGoalsScreen(navController = navController, userId = userId)
+                    }
                     composable("meals") { MealsScreen(navController) }
                     composable("exercises_specific") { ExerciseScreen(navController) }
                     composable("main_profile") { ProfileScreen(navController) }
