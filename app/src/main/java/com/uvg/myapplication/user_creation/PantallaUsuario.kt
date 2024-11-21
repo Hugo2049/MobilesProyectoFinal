@@ -20,6 +20,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
@@ -166,16 +167,29 @@ fun assignExercises(
                 }
             }
 
-            filteredExercises.forEach { exercise ->
-                val exerciseData = exercise.data
-                    ?.filterValues { it != null }
-                    ?.mapValues { it.value as Any }
+            if (filteredExercises.isEmpty()) {
+                Toast.makeText(context, "No se encontraron ejercicios para esta configuración", Toast.LENGTH_SHORT).show()
+                return@addOnSuccessListener
+            }
 
-                userDocument.collection("exercises")
-                    .add(exerciseData ?: emptyMap<String, Any>())
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Error al guardar ejercicio: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+            // Crear 31 subcolecciones para ejercicios
+            for (day in 1..31) {
+                val dayExercises = filteredExercises.shuffled().take((5..8).random()) // Elegir entre 5 y 8 ejercicios aleatorios
+
+                dayExercises.forEachIndexed { index, exercise ->
+                    val exerciseData = exercise.data
+                        ?.filterValues { it != null }
+                        ?.mapValues { it.value as Any }
+
+                    userDocument.collection("entries")
+                        .document("día_${day}")
+                        .collection("exercises")
+                        .document("exercise_${index + 1}") // Número secuencial para ejercicios
+                        .set(exerciseData ?: emptyMap<String, Any>())
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Error al guardar ejercicio: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
 
             Toast.makeText(context, "Ejercicios asignados correctamente!", Toast.LENGTH_SHORT).show()
@@ -199,13 +213,12 @@ fun assignMeals(
             val filteredMeals = mealsSnapshot.documents.filter { doc ->
                 val dietaryRestriction = doc.getString("dietaryRestrictions") ?: "None"
 
-                // Filtrar según la restricción dietética seleccionada
                 when (selectedDietaryRestriction) {
-                    "None" -> true // Incluir todo si es "None"
+                    "None" -> true
                     "Pescatarian" -> dietaryRestriction != "pescatarian"
                     "Vegan" -> dietaryRestriction != "vegan"
                     "Vegetarian" -> dietaryRestriction != "vegetarian"
-                    else -> true // En caso de un valor inesperado, incluir todo
+                    else -> true
                 }
             }
 
@@ -214,17 +227,42 @@ fun assignMeals(
                 return@addOnSuccessListener
             }
 
-            // Agregar comidas filtradas a la subcolección
-            filteredMeals.forEach { meal ->
-                val mealData = meal.data
-                    ?.filterValues { it != null }
-                    ?.mapValues { it.value as Any }
+            var mealIndex = 0 // Índice para recorrer las comidas en caso de necesidad
 
-                userDocument.collection("meals")
-                    .add(mealData ?: emptyMap<String, Any>())
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Error al guardar comida: ${e.message}", Toast.LENGTH_SHORT).show()
+            // Crear 31 documentos con comidas
+            for (day in 1..31) {
+                // Seleccionar tres comidas al azar respetando restricciones dietarias
+                val selectedMeals = mutableListOf<DocumentSnapshot?>()
+                repeat(3) {
+                    val randomMeal = filteredMeals.randomOrNull()
+                    if (randomMeal != null) {
+                        selectedMeals.add(randomMeal)
+                    } else {
+                        // Si no se encuentra una comida al azar, seleccionar secuencialmente
+                        if (mealIndex >= filteredMeals.size) mealIndex = 0
+                        selectedMeals.add(filteredMeals[mealIndex])
+                        mealIndex++
                     }
+                }
+
+                // Validar que las comidas fueron seleccionadas
+                if (selectedMeals.any { it == null }) {
+                    Toast.makeText(context, "No se encontraron suficientes comidas para el día $day", Toast.LENGTH_SHORT).show()
+                    continue
+                }
+
+                // Guardar cada comida como un documento en la subcolección "meals"
+                selectedMeals.forEachIndexed { index, meal ->
+                    val mealData = meal?.data?.filterValues { it != null }
+                    userDocument.collection("entries")
+                        .document("día_${day}")
+                        .collection("meals")
+                        .document("meal_${index + 1}") // Número secuencial para comidas
+                        .set(mealData ?: emptyMap<String, Any>())
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Error al guardar comida: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             }
 
             Toast.makeText(context, "Comidas asignadas correctamente!", Toast.LENGTH_SHORT).show()
@@ -233,6 +271,7 @@ fun assignMeals(
             Toast.makeText(context, "Error al obtener comidas: ${e.message}", Toast.LENGTH_SHORT).show()
         }
 }
+
 
 @Composable
 fun FrequencyChip(text: String, isSelected: Boolean, onSelected: () -> Unit) {
