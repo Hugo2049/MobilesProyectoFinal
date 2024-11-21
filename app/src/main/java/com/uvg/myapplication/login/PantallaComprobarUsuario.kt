@@ -70,22 +70,25 @@ fun ProfileCheckUser(navController: NavController) {
 
         Button(
             onClick = {
-                db.collection("users")
-                    .whereEqualTo("username", username)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        if (!documents.isEmpty) {
-                            // Navegar a `change_password` con el `username` como argumento
-                            navController.navigate("change_password/$username") {
-                                popUpTo("check_user") { inclusive = true }
+                if (username.isNotEmpty()) {
+                    db.collection("users")
+                        .whereEqualTo("username", username)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            if (!documents.isEmpty) {
+                                navController.navigate("change_password/$username") {
+                                    popUpTo("check_user") { inclusive = true }
+                                }
+                            } else {
+                                Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show()
                             }
-                        } else {
-                            Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show()
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Toast.makeText(context, "Error al verificar usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
-                    }
+                        .addOnFailureListener { exception ->
+                            Toast.makeText(context, "Error al verificar usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(context, "Por favor, ingrese un nombre de usuario", Toast.LENGTH_SHORT).show()
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

@@ -77,25 +77,27 @@ fun SignUpScreen(navController: NavController) {
 
         Button(
             onClick = {
-                // Guardar datos en Firestore
-                val user = hashMapOf(
-                    "firstName" to firstName,
-                    "username" to username,
-                    "password" to password
-                )
+                if (firstName.isBlank() || username.isBlank() || password.isBlank()) {
+                    Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
+                } else {
+                    val user = hashMapOf(
+                        "firstName" to firstName,
+                        "username" to username,
+                        "password" to password
+                    )
 
-                db.collection("users")
-                    .add(user)
-                    .addOnSuccessListener { documentReference ->
-                        val userId = documentReference.id // Obtén el ID generado automáticamente
+                    db.collection("users")
+                        .add(user)
+                        .addOnSuccessListener { documentReference ->
+                            val userId = documentReference.id
 
-                        // Navegar a la pantalla de "SetGoalsScreen" pasando el userId
-                        navController.navigate("set_goals/$userId")
-                        Toast.makeText(context, "Account created successfully!", Toast.LENGTH_SHORT).show()
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Failed to create account: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                            navController.navigate("set_goals/$userId")
+                            Toast.makeText(context, "Account created successfully!", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Failed to create account: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()

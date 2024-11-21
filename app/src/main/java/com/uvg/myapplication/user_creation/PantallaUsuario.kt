@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -40,6 +41,14 @@ fun SetGoalsScreen(navController: NavController, userId: String) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    colors = listOf(
+                        Color(0xFFF5F5DC), // Beige claro
+                        Color(0xFFDDFFDD)  // Verde pastel
+                    )
+                )
+            )
             .verticalScroll(scrollState)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -83,44 +92,55 @@ fun SetGoalsScreen(navController: NavController, userId: String) {
 
         Button(
             onClick = {
-                val goalData = hashMapOf(
-                    "userId" to userId,
-                    "age" to age,
-                    "weight" to weight,
-                    "height" to height,
-                    "selectedFrequency" to selectedFrequency,
-                    "selectedDietaryRestriction" to selectedDietaryRestriction
-                )
+                if (age.isBlank() || weight.isBlank() || height.isBlank()) {
+                    Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
+                } else {
+                    val goalData = hashMapOf(
+                        "userId" to userId,
+                        "age" to age,
+                        "weight" to weight,
+                        "height" to height,
+                        "selectedFrequency" to selectedFrequency,
+                        "selectedDietaryRestriction" to selectedDietaryRestriction
+                    )
 
-                db.collection("users")
-                    .document(userId)
-                    .collection("goals")
-                    .add(goalData)
-                    .addOnSuccessListener {
-                        // Llama a las funciones separadas para ejercicios y comidas
-                        assignExercises(
-                            db = db,
-                            userId = userId,
-                            selectedFrequency = selectedFrequency,
-                            context = context
-                        )
+                    db.collection("users")
+                        .document(userId)
+                        .collection("goals")
+                        .add(goalData)
+                        .addOnSuccessListener {
+                            assignExercises(
+                                db = db,
+                                userId = userId,
+                                selectedFrequency = selectedFrequency,
+                                context = context
+                            )
 
-                        assignMeals(
-                            db = db,
-                            userId = userId,
-                            selectedDietaryRestriction = selectedDietaryRestriction,
-                            context = context
-                        )
+                            assignMeals(
+                                db = db,
+                                userId = userId,
+                                selectedDietaryRestriction = selectedDietaryRestriction,
+                                context = context
+                            )
 
-                        navController.navigate("Exercises_main")
-                    }
-                    .addOnFailureListener { e ->
-                        Toast.makeText(context, "Failed to save goals: ${e.message}", Toast.LENGTH_SHORT).show()
-                    }
+                            navController.navigate("Exercises_main")
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Failed to save goals: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             },
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00A86B) // Verde vibrante
+            )
         ) {
-            Text("Continue")
+            Text(
+                text = "Continue",
+                color = Color.White // Color del texto en contraste
+            )
         }
     }
 }

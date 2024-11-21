@@ -87,7 +87,6 @@ fun ProfileInfoScreen(navController: NavController) {
             onClick = {
                 val newPassword = newPasswordState.value
                 if (newPassword.isNotEmpty()) {
-                    // Actualizar la contraseña en Firestore
                     db.collection("users")
                         .whereEqualTo("username", username)
                         .get()

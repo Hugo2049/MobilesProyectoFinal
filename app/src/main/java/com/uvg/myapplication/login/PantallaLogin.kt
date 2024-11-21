@@ -98,27 +98,29 @@ fun NutriFitLoginScreen(navController: NavController) {
 
         Button(
             onClick = {
-                db.collection("users")
-                    .whereEqualTo("username", username)
-                    .whereEqualTo("password", password)
-                    .get()
-                    .addOnSuccessListener { documents ->
-                        if (!documents.isEmpty) {
-                            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
+                if (username.isBlank() || password.isBlank()) {
+                    Toast.makeText(context, "Username and password are required", Toast.LENGTH_SHORT).show()
+                } else {
+                    db.collection("users")
+                        .whereEqualTo("username", username)
+                        .whereEqualTo("password", password)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            if (!documents.isEmpty) {
+                                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
 
-                            // Guardar el usuario en SharedPreferences
-                            val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
-                            sharedPreferences.edit().putString("username", username).apply()
+                                val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+                                sharedPreferences.edit().putString("username", username).apply()
 
-                            // Navegar a la pantalla principal
-                            navController.navigate("exercises_main")
-                        } else {
-                            Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                                navController.navigate("exercises_main")
+                            } else {
+                                Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Error logging in: ${it.message}", Toast.LENGTH_SHORT).show()
-                    }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "Error logging in: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
             },
             modifier = Modifier
                 .fillMaxWidth()
