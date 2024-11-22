@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"></string>
+    <string name="exercise_title">Elevación lateral con mancuernas</string>
+    <string name="sets_reps">"Series x repeticiones "</string>
+    <string name="targeted_muscles">Músculos objetivo</string>
+    <string name="equipment">Equipo</string>
+    <string name="equipment_details">mancuernas</string>
+    <string name="mark_completed">Marcar como completada</string>
+    <string name="middle_deltoid">deltoides medio</string>
+    <string name="upper_trapezius">Trapecio superior</string>
 </resources>
