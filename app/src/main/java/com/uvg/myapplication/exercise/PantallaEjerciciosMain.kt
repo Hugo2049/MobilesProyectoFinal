@@ -72,26 +72,16 @@ fun WorkoutPlanScreen(
 
             for (i in 1..5) {
                 val exerciseName = exercises.getOrNull(i - 1) ?: "No exercise"
-                WorkoutDay("Exercise $i: $exerciseName")
+                WorkoutDay(
+                    dayText = "Exercise $i: $exerciseName",
+                    onClick = {
+                        // Navegar a la pantalla específica del ejercicio
+                        navController.navigate("exercises_specific")
+                    }
+                )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para cambiar de pantalla
-            Button(
-                onClick = { navController.navigate("exercises_specific") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
-            ) {
-                Text(
-                    text = "Start Plan",
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
-            }
         }
 
         // Barra de navegación inferior
@@ -103,7 +93,7 @@ fun WorkoutPlanScreen(
 }
 
 @Composable
-fun WorkoutDay(dayText: String) {
+fun WorkoutDay(dayText: String, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -113,6 +103,7 @@ fun WorkoutDay(dayText: String) {
                 shape = RoundedCornerShape(12.dp)
             )
             .border(1.dp, Color(0xFF66BB6A), RoundedCornerShape(12.dp)) // Borde verde claro
+            .clickable { onClick() } // Hacer clickeable el Box
             .padding(16.dp)
     ) {
         Row(
@@ -139,6 +130,7 @@ fun WorkoutDay(dayText: String) {
         }
     }
 }
+
 @Composable
 fun WorkoutCalendar(
     daysInMonth: List<LocalDate>,
