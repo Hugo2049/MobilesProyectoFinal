@@ -3,13 +3,17 @@ package com.uvg.myapplication.exercise
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -18,13 +22,11 @@ import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import coil.transform.CircleCropTransformation
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.Alignment
 import com.uvg.myapplication.BottomNavBar
+import com.uvg.myapplication.R
 
 @Composable
-fun ExerciseScreen(navController: NavController) {
+fun ExerciseScreen(navController: NavController, exerciseName: String) {
     val scrollState = rememberScrollState()
 
     Box(
@@ -32,19 +34,19 @@ fun ExerciseScreen(navController: NavController) {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado
                 )
             )
     ) {
-        // Contenido de la pantalla
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState) // Habilitar el scroll vertical
+                .verticalScroll(scrollState) // Habilitar scroll vertical
         ) {
+            // Imagen de demostración del ejercicio
             val painter = rememberImagePainter(
-                data = "PlaceHolder", // Cambia la URL por una imagen real
+                data = "https://example.com/your_image_url.jpg", // Cambiar URL por una real
                 builder = {
                     scale(Scale.FILL)
                     transformations(CircleCropTransformation())
@@ -53,7 +55,7 @@ fun ExerciseScreen(navController: NavController) {
 
             Image(
                 painter = painter,
-                contentDescription = "Dumbbell Lateral Raise",
+                contentDescription = exerciseName,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(300.dp),
@@ -62,8 +64,9 @@ fun ExerciseScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Título del ejercicio
             Text(
-                text = "Dumbbell Lateral Raise",
+                text = stringResource(id = R.string.exercise_title),
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
@@ -72,21 +75,23 @@ fun ExerciseScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            // Sección de Sets y Reps
             Text(
-                text = "Sets x Reps",
+                text = stringResource(id = R.string.sets_reps),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp
             )
             Text(
-                text = "4x12-15\nRest 60s",
+                text = stringResource(id = R.string.sets_details),
                 color = Color.Gray,
                 fontSize = 16.sp
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Sección de Musculatura Objetivo
             Text(
-                text = "Targeted Muscles",
+                text = stringResource(id = R.string.targeted_muscles),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp
             )
@@ -96,25 +101,27 @@ fun ExerciseScreen(navController: NavController) {
                     .padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
-                MuscleChip("Middle Deltoid")
-                MuscleChip("Upper Trapezius")
+                MuscleChip(text = stringResource(id = R.string.middle_deltoid))
+                MuscleChip(text = stringResource(id = R.string.upper_trapezius))
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
+            // Sección de Equipamiento
             Text(
-                text = "Equipment",
+                text = stringResource(id = R.string.equipment),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 18.sp
             )
             Text(
-                text = "Dumbbells",
+                text = stringResource(id = R.string.equipment_details),
                 color = Color.Gray,
                 fontSize = 16.sp
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
+            // Botón de acción
             Button(
                 onClick = { /* TODO: Acción al hacer clic */ },
                 modifier = Modifier
@@ -122,36 +129,38 @@ fun ExerciseScreen(navController: NavController) {
                     .height(50.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF00A86B) // Verde similar al del primer código
+                    containerColor = Color(0xFF00A86B) // Verde similar al del diseño original
                 )
             ) {
                 Text(
-                    text = "Mark as Completed",
+                    text = stringResource(id = R.string.mark_completed),
                     color = Color.White,
                     fontSize = 18.sp
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Spacer para empujar el contenido hacia arriba
+            Spacer(modifier = Modifier.weight(1f)) // Espaciador para empujar el contenido hacia arriba
         }
 
-        // Barra de navegación en la parte inferior
-        BottomNavBar(navController = navController,
+        // Barra de navegación inferior
+        BottomNavBar(
+            navController = navController,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .fillMaxWidth()) // Asegúrate de que tenga el ancho completo
+                .fillMaxWidth()
+        )
     }
 }
 
 @Composable
-fun MuscleChip(muscle: String) {
+fun MuscleChip(text: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = Color(0xFFE1E1E1), // Gris claro para los chips
         modifier = Modifier.padding(4.dp)
     ) {
         Text(
-            text = muscle,
+            text = text,
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             fontSize = 14.sp,
@@ -159,5 +168,3 @@ fun MuscleChip(muscle: String) {
         )
     }
 }
-
-

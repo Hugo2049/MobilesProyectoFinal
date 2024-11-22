@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">My Application</string>
+
+        <string name="exercise_title">Dumbbell Lateral Raise</string>
+        <string name="sets_reps">Sets x Reps</string>
+        <string name="sets_details">4x12-15\nRest 60s</string>
+        <string name="targeted_muscles">Targeted Muscles</string>
+        <string name="equipment">Equipment</string>
+        <string name="equipment_details">Dumbbells</string>
+        <string name="mark_completed">Mark as Completed</string>
+        <string name="middle_deltoid">Middle Deltoid</string>
+        <string name="upper_trapezius">Upper Trapezius</string>
 </resources>

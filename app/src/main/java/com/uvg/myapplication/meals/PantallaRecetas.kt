@@ -1,5 +1,6 @@
 package com.uvg.myapplication.meals
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,11 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
 import com.uvg.myapplication.BottomNavBar
 
 @Composable
@@ -57,11 +60,11 @@ fun RecipeScreen(navController: NavController) {
                     ),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "Imagen de receta",
-                    color = Color.White,
-                    fontWeight = FontWeight.SemiBold
-                )
+                Image(
+                    painter = rememberImagePainter("https://imagenes.elpais.com/resizer/v2/5OJB7D54QRB3HIEFNPXXSUMUCQ.jpg?auth=5458fcc5cc260309695c6dd05b2965d8827226198d2fd5fa1502a3670ef3bd38&width=1960&height=1470&smart=true"), // Reemplaza con tu URL
+                    contentDescription = "Imagen de receta",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop)
             }
 
             Text(
