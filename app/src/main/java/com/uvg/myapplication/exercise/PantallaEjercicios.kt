@@ -34,7 +34,7 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
                 )
             )
     ) {
@@ -42,11 +42,10 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState) // Habilitar scroll vertical
+                .verticalScroll(scrollState)
         ) {
-            // Imagen de demostración del ejercicio
             val painter = rememberImagePainter(
-                data = "https://example.com/your_image_url.jpg", // Cambiar URL por una real
+                data = "https://example.com/your_image_url.jpg",
                 builder = {
                     scale(Scale.FILL)
                     transformations(CircleCropTransformation())
@@ -64,7 +63,6 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Título del ejercicio
             Text(
                 text = stringResource(id = R.string.exercise_title),
                 fontWeight = FontWeight.Bold,
@@ -75,7 +73,6 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Sección de Sets y Reps
             Text(
                 text = stringResource(id = R.string.sets_reps),
                 fontWeight = FontWeight.SemiBold,
@@ -89,7 +86,6 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Sección de Musculatura Objetivo
             Text(
                 text = stringResource(id = R.string.targeted_muscles),
                 fontWeight = FontWeight.SemiBold,
@@ -107,7 +103,6 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Sección de Equipamiento
             Text(
                 text = stringResource(id = R.string.equipment),
                 fontWeight = FontWeight.SemiBold,
@@ -121,7 +116,6 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón de acción
             Button(
                 onClick = { /* TODO: Acción al hacer clic */ },
                 modifier = Modifier
@@ -129,7 +123,7 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
                     .height(50.dp),
                 shape = RoundedCornerShape(8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF00A86B) // Verde similar al del diseño original
+                    containerColor = Color(0xFF00A86B)
                 )
             ) {
                 Text(
@@ -139,10 +133,9 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Espaciador para empujar el contenido hacia arriba
+            Spacer(modifier = Modifier.weight(1f))
         }
 
-        // Barra de navegación inferior
         BottomNavBar(
             navController = navController,
             modifier = Modifier
@@ -156,7 +149,7 @@ fun ExerciseScreen(navController: NavController, exerciseName: String) {
 fun MuscleChip(text: String) {
     Surface(
         shape = RoundedCornerShape(16.dp),
-        color = Color(0xFFE1E1E1), // Gris claro para los chips
+        color = Color(0xFFE1E1E1),
         modifier = Modifier.padding(4.dp)
     ) {
         Text(
@@ -164,7 +157,7 @@ fun MuscleChip(text: String) {
             modifier = Modifier
                 .padding(horizontal = 16.dp, vertical = 8.dp),
             fontSize = 14.sp,
-            color = Color.Black // Texto negro para los chips
+            color = Color.Black
         )
     }
 }

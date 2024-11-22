@@ -32,6 +32,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
     fun resetLoginState() {
         _loginState.value = false
-        _errorMessage.value = "" // Reiniciar mensaje de error si existiera
+        _errorMessage.value = ""
     }
 }

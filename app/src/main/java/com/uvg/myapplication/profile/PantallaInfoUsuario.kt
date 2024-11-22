@@ -28,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 fun ProfileInfoScreen(navController: NavController) {
     val context = LocalContext.current
     val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
-    val username = sharedPreferences.getString("username", "User") ?: "User"  // Obtener el nombre de usuario de SharedPreferences
+    val username = sharedPreferences.getString("username", "User") ?: "User"
 
     val newPasswordState = remember { mutableStateOf("") }
     val db = FirebaseFirestore.getInstance()
@@ -45,7 +45,6 @@ fun ProfileInfoScreen(navController: NavController) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Título mostrando el username
         Text(
             text = "Hi, $username! Let's change your password",
             fontSize = 28.sp,

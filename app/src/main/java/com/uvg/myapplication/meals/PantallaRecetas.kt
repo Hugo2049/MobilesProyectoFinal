@@ -27,7 +27,7 @@ fun RecipeScreen(navController: NavController) {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado suave
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
                 )
             )
     ) {
@@ -55,13 +55,13 @@ fun RecipeScreen(navController: NavController) {
                     .clip(RoundedCornerShape(16.dp))
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(Color(0xFFB0EFC1), Color(0xFF88D89D)) // Verde pastel suave
+                            colors = listOf(Color(0xFFB0EFC1), Color(0xFF88D89D))
                         )
                     ),
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = rememberImagePainter("https://imagenes.elpais.com/resizer/v2/5OJB7D54QRB3HIEFNPXXSUMUCQ.jpg?auth=5458fcc5cc260309695c6dd05b2965d8827226198d2fd5fa1502a3670ef3bd38&width=1960&height=1470&smart=true"), // Reemplaza con tu URL
+                    painter = rememberImagePainter("https://imagenes.elpais.com/resizer/v2/5OJB7D54QRB3HIEFNPXXSUMUCQ.jpg?auth=5458fcc5cc260309695c6dd05b2965d8827226198d2fd5fa1502a3670ef3bd38&width=1960&height=1470&smart=true"),
                     contentDescription = "Imagen de receta",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop)
@@ -103,7 +103,7 @@ fun RecipeScreen(navController: NavController) {
                     .padding(12.dp)
                     .clip(RoundedCornerShape(16.dp))
                     .background(Brush.verticalGradient(
-                        colors = listOf(Color(0xFFE0F5DC), Color(0xFFCDE9C8)) // Beige y verde claro
+                        colors = listOf(Color(0xFFE0F5DC), Color(0xFFCDE9C8))
                     ))
             ) {
                 Text(
@@ -123,7 +123,7 @@ fun RecipeScreen(navController: NavController) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFFE9F7EF), shape = RoundedCornerShape(8.dp)) // Verde claro pastel
+                    .background(Color(0xFFE9F7EF), shape = RoundedCornerShape(8.dp))
                     .padding(12.dp)
             ) {
                 Text(

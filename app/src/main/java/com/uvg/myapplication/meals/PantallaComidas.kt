@@ -26,7 +26,6 @@ fun MealsScreen(
     navController: NavController,
     mealsViewModel: MealsViewModel = viewModel()
 ) {
-    // Observar el estado del ViewModel
     val meals = mealsViewModel.meals.collectAsState()
     val selectedDay = mealsViewModel.selectedDay.collectAsState()
 
@@ -37,7 +36,7 @@ fun MealsScreen(
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado verde claro
+                    colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
                 )
             )
     ) {
@@ -47,7 +46,6 @@ fun MealsScreen(
                 .padding(16.dp)
                 .verticalScroll(scrollState)
         ) {
-            // Selector de fechas
             DateSelector(
                 selectedDate = selectedDay.value,
                 onTodaySelected = { mealsViewModel.updateSelectedDay(LocalDate.now()) },
@@ -57,14 +55,12 @@ fun MealsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Lista de comidas
             meals.value.forEach { meal ->
                 MealItem(meal)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón para ver la receta completa
             Button(
                 onClick = { navController.navigate("recipes") },
                 modifier = Modifier
@@ -78,11 +74,10 @@ fun MealsScreen(
             Spacer(modifier = Modifier.height(125.dp))
         }
 
-        // Barra de navegación inferior
         BottomNavBar(
             navController = navController,
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Alinea la barra de navegación en la parte inferior
+                .align(Alignment.BottomCenter)
         )
     }
 }
@@ -99,7 +94,7 @@ fun DateSelector(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         val buttonModifier = Modifier
-            .clip(RoundedCornerShape(24.dp)) // Botones redondeados
+            .clip(RoundedCornerShape(24.dp))
 
         Button(
             onClick = onTodaySelected,
@@ -137,13 +132,13 @@ fun MealItem(title: String) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clip(RoundedCornerShape(16.dp)) // Bordes redondeados
+            .clip(RoundedCornerShape(16.dp))
             .background(
                 Brush.verticalGradient(
-                    colors = listOf(Color(0xFFDEEDC0), Color(0xFFB4D8A6)) // Gradiente en tonos verde suave y beige
+                    colors = listOf(Color(0xFFDEEDC0), Color(0xFFB4D8A6))
                 )
             )
-            .padding(16.dp) // Espaciado interno
+            .padding(16.dp)
     ) {
         Text(
             text = title,

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,31 +21,23 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.uvg.myapplication.viewmodel.LoginViewModel
-import com.uvg.myapplication.repository.UserRepository
+import com.google.firebase.firestore.FirebaseFirestore
+import android.content.Context
+
 
 @Composable
-fun LoginScreenUI(navController: NavController, viewModel: LoginViewModel) {
+fun NutriFitLoginScreen(navController: NavController) {
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val db = FirebaseFirestore.getInstance()
 
-    // Observe state from ViewModel
-    val loginState by viewModel.loginState.collectAsState()
-    val errorMessage by viewModel.errorMessage.collectAsState()
+    val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+    val savedUsername = sharedPreferences.getString("username", "")
 
-    // Reset login state when entering the screen
-    LaunchedEffect(Unit) {
-        viewModel.resetLoginState()
-    }
-
-    // Handle login success navigation in a LaunchedEffect
-    LaunchedEffect(loginState) {
-        if (loginState) {
-            Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
-            navController.navigate("workout_plan") {
-                popUpTo("login") { inclusive = true }
-            }
+    if (!savedUsername.isNullOrEmpty()) {
+        LaunchedEffect(Unit) {
+            navController.navigate("workout_plan")
         }
     }
 
@@ -60,9 +53,12 @@ fun LoginScreenUI(navController: NavController, viewModel: LoginViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome to NutriFit", fontSize = 28.sp, color = Color(0xFF333333))
-
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            "Welcome back!",
+            fontSize = 28.sp,
+            color = Color(0xFF333333),
+            modifier = Modifier.padding(bottom = 32.dp)
+        )
 
         BasicTextField(
             value = username,
@@ -70,13 +66,13 @@ fun LoginScreenUI(navController: NavController, viewModel: LoginViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
-                .background(Color.White)
-                .padding(16.dp),
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
             decorationBox = { innerTextField ->
                 if (username.isEmpty()) {
-                    Text("Username", color = Color.Gray)
+                    Text("Username", color = Color.Gray, fontSize = 16.sp)
                 }
                 innerTextField()
             }
@@ -88,57 +84,66 @@ fun LoginScreenUI(navController: NavController, viewModel: LoginViewModel) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
-                .background(Color.White)
-                .padding(16.dp),
+                .background(Color(0xFFFFFFFF))
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             visualTransformation = PasswordVisualTransformation(),
-            textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
             decorationBox = { innerTextField ->
                 if (password.isEmpty()) {
-                    Text("Password", color = Color.Gray)
+                    Text("Password", color = Color.Gray, fontSize = 16.sp)
                 }
                 innerTextField()
             }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botón de inicio de sesión
-        Button(onClick = {
-            if (username.isBlank() || password.isBlank()) {
-                Toast.makeText(context, "Username and password are required", Toast.LENGTH_SHORT).show()
-            } else {
-                viewModel.login(username, password) // Call ViewModel's login function
-            }
-        }) {
-            Text("Log In")
-        }
-
-        // Mensaje de error si lo hay
-        if (errorMessage.isNotEmpty()) {
-            Text(errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Botón de recuperación de contraseña
         Text(
             text = "Forgot your password?",
             color = Color(0xFF00A86B),
-            modifier = Modifier.clickable {
-                navController.navigate("check_user")
-            }
+            modifier = Modifier
+                .padding(vertical = 16.dp)
+                .clickable { navController.navigate("check_user") }
         )
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Button(
+            onClick = {
+                if (username.isBlank() || password.isBlank()) {
+                    Toast.makeText(context, "Username and password are required", Toast.LENGTH_SHORT).show()
+                } else {
+                    db.collection("users")
+                        .whereEqualTo("username", username)
+                        .whereEqualTo("password", password)
+                        .get()
+                        .addOnSuccessListener { documents ->
+                            if (!documents.isEmpty) {
+                                Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
 
-        // Botón para registrarse
+                                sharedPreferences.edit().putString("username", username).apply()
+
+                                navController.navigate("exercises_main")
+                            } else {
+                                Toast.makeText(context, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(context, "Error logging in: ${it.message}", Toast.LENGTH_SHORT).show()
+                        }
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp),
+            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00A86B))
+        ) {
+            Text(text = "Log In", color = Color.White, fontSize = 18.sp)
+        }
+
         Text(
             text = "New user? Sign up",
             color = Color(0xFF333333),
-            modifier = Modifier.clickable {
-                navController.navigate("create_user")
-            }
+            modifier = Modifier
+                .padding(top = 16.dp)
+                .clickable { navController.navigate("create_user") }
         )
     }
 }

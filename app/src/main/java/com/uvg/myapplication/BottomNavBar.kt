@@ -16,20 +16,18 @@ fun MainScreen(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        // Contenido principal de la pantalla
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 56.dp) // Ajuste para dar espacio a la BottomNavBar
+                .padding(bottom = 56.dp)
         ) {
 
         }
 
-        // Barra de navegación inferior fija
         BottomNavBar(
             navController = navController,
             modifier = Modifier
-                .align(Alignment.BottomCenter) // Alinea la barra de navegación en la parte inferior
+                .align(Alignment.BottomCenter)
         )
     }
 }
@@ -37,12 +35,12 @@ fun MainScreen(navController: NavController) {
 @Composable
 fun BottomNavBar(
     navController: NavController,
-    modifier: Modifier = Modifier // Añadimos un parámetro de Modifier para la alineación
+    modifier: Modifier = Modifier
 ) {
     NavigationBar(
 
-        containerColor = Color(0xFF00796B ), // Fondo verde claro para la barra de navegación
-        contentColor = Color.White, // Color blanco para el contenido (iconos y texto)
+        containerColor = Color(0xFF00796B ),
+        contentColor = Color.White,
         tonalElevation = 8.dp,
         modifier = modifier
     ) {
@@ -52,10 +50,10 @@ fun BottomNavBar(
             selected = false,
             onClick = { navController.navigate("workout_plan") },
             colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = Color.White, // Blanco para icono seleccionado
-                unselectedIconColor = Color(0xFFDDFFDD), // Verde oscuro para icono no seleccionado
-                selectedTextColor = Color.White, // Blanco para texto seleccionado
-                unselectedTextColor = Color(0xFF1B5E20) // Verde oscuro para texto no seleccionado
+                selectedIconColor = Color.White,
+                unselectedIconColor = Color(0xFFDDFFDD),
+                selectedTextColor = Color.White,
+                unselectedTextColor = Color(0xFF1B5E20)
             )
         )
 

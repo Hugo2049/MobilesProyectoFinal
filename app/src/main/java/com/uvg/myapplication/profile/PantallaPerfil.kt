@@ -81,10 +81,8 @@ fun ProfileScreen(navController: NavController) {
             Button(
                 onClick = {
                     // Eliminar el estado de autenticación
-                    sharedPreferences.edit().clear().apply() // Limpiar SharedPreferences
-                    navController.navigate("login") {
-                        popUpTo("login") { inclusive = true } // Eliminar el historial para evitar volver atrás
-                    }
+                    sharedPreferences.edit().remove("username").apply()
+                    navController.navigate("login") // Redirigir a la pantalla de login
                 },
                 modifier = Modifier
                     .fillMaxWidth()

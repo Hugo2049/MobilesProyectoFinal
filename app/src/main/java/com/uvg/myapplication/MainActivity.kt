@@ -13,9 +13,9 @@ import com.uvg.myapplication.exercise.ExerciseScreen
 import com.uvg.myapplication.exercise.WorkoutPlanScreen
 import com.uvg.myapplication.exercise.WorkoutViewModel
 import com.uvg.myapplication.exercise.WorkoutViewModelFactory
-import com.uvg.myapplication.login.LoginScreenUI
+import com.uvg.myapplication.login.NutriFitLoginScreen
 import com.uvg.myapplication.login.ProfileCheckUserScreen
-import com.uvg.myapplication.login.ProfileChangePasswordScreen
+import com.uvg.myapplication.login.ProfilePassScreen
 import com.uvg.myapplication.meals.MealsScreen
 import com.uvg.myapplication.meals.MealsViewModel
 import com.uvg.myapplication.meals.MealsViewModelFactory
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = "login") {
                     // Pantalla de inicio de sesión
                     composable("login") {
-                        LoginScreenUI(navController = navController, viewModel = loginViewModel)
+                        NutriFitLoginScreen(navController = navController)
                     }
 
                     // Pantalla principal de ejercicios
@@ -109,7 +109,7 @@ class MainActivity : ComponentActivity() {
                     composable("change_password/{username}") { backStackEntry ->
                         val username = backStackEntry.arguments?.getString("username")
                         if (username != null) {
-                            ProfileChangePasswordScreen(navController, username)
+                            ProfilePassScreen(navController, username)
                         }
                     }
                 }

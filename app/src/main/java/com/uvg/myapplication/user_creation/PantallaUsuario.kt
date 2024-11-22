@@ -45,8 +45,8 @@ fun SetGoalsScreen(navController: NavController, userId: String) {
             .background(
                 Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFFF5F5DC), // Beige claro
-                        Color(0xFFDDFFDD)  // Verde pastel
+                        Color(0xFFF5F5DC),
+                        Color(0xFFDDFFDD)
                     )
                 )
             )
@@ -135,12 +135,12 @@ fun SetGoalsScreen(navController: NavController, userId: String) {
                 .fillMaxWidth()
                 .padding(8.dp),
             colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00A86B) // Verde vibrante
+                containerColor = Color(0xFF00A86B)
             )
         ) {
             Text(
                 text = "Continue",
-                color = Color.White // Color del texto en contraste
+                color = Color.White
             )
         }
     }
@@ -174,7 +174,7 @@ fun assignExercises(
 
             // Crear 31 subcolecciones para ejercicios
             for (day in 1..31) {
-                val dayExercises = filteredExercises.shuffled().take((5..8).random()) // Elegir entre 5 y 8 ejercicios aleatorios
+                val dayExercises = filteredExercises.shuffled().take((5..8).random())
 
                 dayExercises.forEachIndexed { index, exercise ->
                     val exerciseData = exercise.data
@@ -184,7 +184,7 @@ fun assignExercises(
                     userDocument.collection("entries")
                         .document("día_${day}")
                         .collection("exercises")
-                        .document("exercise_${index + 1}") // Número secuencial para ejercicios
+                        .document("exercise_${index + 1}")
                         .set(exerciseData ?: emptyMap<String, Any>())
                         .addOnFailureListener { e ->
                             Toast.makeText(context, "Error al guardar ejercicio: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -227,31 +227,26 @@ fun assignMeals(
                 return@addOnSuccessListener
             }
 
-            var mealIndex = 0 // Índice para recorrer las comidas en caso de necesidad
+            var mealIndex = 0
 
-            // Crear 31 documentos con comidas
             for (day in 1..31) {
-                // Seleccionar tres comidas al azar respetando restricciones dietarias
                 val selectedMeals = mutableListOf<DocumentSnapshot?>()
                 repeat(3) {
                     val randomMeal = filteredMeals.randomOrNull()
                     if (randomMeal != null) {
                         selectedMeals.add(randomMeal)
                     } else {
-                        // Si no se encuentra una comida al azar, seleccionar secuencialmente
                         if (mealIndex >= filteredMeals.size) mealIndex = 0
                         selectedMeals.add(filteredMeals[mealIndex])
                         mealIndex++
                     }
                 }
 
-                // Validar que las comidas fueron seleccionadas
                 if (selectedMeals.any { it == null }) {
                     Toast.makeText(context, "No se encontraron suficientes comidas para el día $day", Toast.LENGTH_SHORT).show()
                     continue
                 }
 
-                // Guardar cada comida como un documento en la subcolección "meals"
                 selectedMeals.forEachIndexed { index, meal ->
                     val mealData = meal?.data?.filterValues { it != null }
                     userDocument.collection("entries")
