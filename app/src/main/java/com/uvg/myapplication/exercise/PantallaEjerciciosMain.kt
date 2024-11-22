@@ -19,39 +19,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.firebase.firestore.FirebaseFirestore
 import com.uvg.myapplication.BottomNavBar
 import java.time.LocalDate
 import java.time.YearMonth
-import java.time.format.TextStyle
-import java.util.*
 
 @Composable
-fun WorkoutPlanScreen(navController: NavController) {
+fun WorkoutPlanScreen(
+    navController: NavController,
+    viewModel: WorkoutViewModel
+) {
     val scrollState = rememberScrollState()
-    val selectedDayNumber = remember { mutableStateOf<Int?>(null) }
-    val exercises = remember { mutableStateOf<List<String>>(emptyList()) } // Lista para ejercicios
 
-    val db = FirebaseFirestore.getInstance()
-
-    // Cargar datos desde Firestore cuando se selecciona un día
-    LaunchedEffect(selectedDayNumber.value) {
-        selectedDayNumber.value?.let { day ->
-            db.collection("users")
-                .document("rZ3FtLee4lvwfgZVCnbu")
-                .collection("entries")
-                .document("día_$day")
-                .collection("exercises")
-                .get()
-                .addOnSuccessListener { documents ->
-                    val loadedExercises = documents.map { it.getString("name") ?: "Unknown Exercise" }
-                    exercises.value = loadedExercises // Actualiza la lista de ejercicios
-                }
-                .addOnFailureListener {
-                    exercises.value = listOf("Error loading exercises")
-                }
-        }
-    }
+    // Observar el estado del ViewModel
+    val selectedDay by viewModel.selectedDay.collectAsState()
+    val exercises by viewModel.exercises.collectAsState()
+    val currentMonth by viewModel.currentMonth.collectAsState()
+    val daysInMonth = viewModel.daysInMonth
 
     Box(
         modifier = Modifier
@@ -69,20 +52,26 @@ fun WorkoutPlanScreen(navController: NavController) {
                 .verticalScroll(scrollState)
                 .padding(16.dp)
         ) {
-            WorkoutCalendar(selectedDayNumber)
+            WorkoutCalendar(
+                daysInMonth = daysInMonth,
+                selectedDay = selectedDay,
+                currentMonth = currentMonth,
+                onDayClick = { day -> viewModel.updateSelectedDay(day) },
+                onNextMonth = { viewModel.goToNextMonth() },
+                onPreviousMonth = { viewModel.goToPreviousMonth() }
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Exercises for Day ${selectedDayNumber.value ?: "None"}",
+                text = "Exercises for Day ${selectedDay?.dayOfMonth ?: "None"}",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1B5E20) // Verde oscuro
             )
 
-            // Muestra los ejercicios en los 5 Box
             for (i in 1..5) {
-                val exerciseName = exercises.value.getOrNull(i - 1) ?: "No exercise"
+                val exerciseName = exercises.getOrNull(i - 1) ?: "No exercise"
                 WorkoutDay("Exercise $i: $exerciseName")
             }
         }
@@ -94,6 +83,7 @@ fun WorkoutPlanScreen(navController: NavController) {
         )
     }
 }
+
 @Composable
 fun WorkoutDay(dayText: String) {
     Box(
@@ -131,13 +121,15 @@ fun WorkoutDay(dayText: String) {
         }
     }
 }
-
 @Composable
-fun WorkoutCalendar(selectedDayNumber: MutableState<Int?>) {
-    val today = LocalDate.now()
-    val month = YearMonth.now()
-    val firstDayOfMonth = month.atDay(1)
-    val lastDayOfMonth = month.atEndOfMonth()
+fun WorkoutCalendar(
+    daysInMonth: List<LocalDate>,
+    selectedDay: LocalDate?,
+    currentMonth: YearMonth,
+    onDayClick: (LocalDate) -> Unit,
+    onNextMonth: () -> Unit,
+    onPreviousMonth: () -> Unit
+) {
     val daysOfWeek = listOf("S", "M", "T", "W", "T", "F", "S")
 
     Column(
@@ -150,13 +142,13 @@ fun WorkoutCalendar(selectedDayNumber: MutableState<Int?>) {
         ) {
             ClickableText(
                 text = AnnotatedString("<"),
-                onClick = { /* Navegar al mes anterior */ },
+                onClick = { onPreviousMonth() },
                 modifier = Modifier.padding(8.dp),
                 style = androidx.compose.ui.text.TextStyle(color = Color(0xFF1B5E20)) // Verde oscuro
             )
 
             Text(
-                text = month.month.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + month.year,
+                text = currentMonth.month.name.lowercase().capitalize() + " " + currentMonth.year,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
                 color = Color(0xFF1B5E20) // Verde oscuro
@@ -164,7 +156,7 @@ fun WorkoutCalendar(selectedDayNumber: MutableState<Int?>) {
 
             ClickableText(
                 text = AnnotatedString(">"),
-                onClick = { /* Navegar al mes siguiente */ },
+                onClick = { onNextMonth() },
                 modifier = Modifier.padding(8.dp),
                 style = androidx.compose.ui.text.TextStyle(color = Color(0xFF1B5E20)) // Verde oscuro
             )
@@ -183,32 +175,22 @@ fun WorkoutCalendar(selectedDayNumber: MutableState<Int?>) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        val startOffset = firstDayOfMonth.dayOfWeek.value % 7
-        var currentDay = firstDayOfMonth.minusDays(startOffset.toLong())
-
-        for (week in 1..6) {
+        daysInMonth.chunked(7).forEach { week ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                for (day in 1..7) {
-                    if (currentDay.isAfter(lastDayOfMonth)) break
-
-                    val dayOfMonth = currentDay.dayOfMonth
+                week.forEach { day ->
                     Text(
-                        text = if (currentDay.monthValue == month.monthValue) dayOfMonth.toString() else "",
+                        text = if (day.month == currentMonth.month) day.dayOfMonth.toString() else "",
                         fontSize = 16.sp,
-                        color = if (selectedDayNumber.value == dayOfMonth) Color(0xFF66BB6A) else Color(0xFF1B5E20),
+                        color = if (day == selectedDay) Color(0xFF66BB6A) else Color(0xFF1B5E20),
                         modifier = Modifier
                             .padding(8.dp)
-                            .clickable {
-                                selectedDayNumber.value = dayOfMonth
-                            }
+                            .clickable { onDayClick(day) }
                     )
-                    currentDay = currentDay.plusDays(1)
                 }
             }
-            if (currentDay.isAfter(lastDayOfMonth)) break
         }
     }
 }
