@@ -39,7 +39,7 @@ fun NutriFitLoginScreen(navController: NavController) {
     // Si ya está guardado un username, redirigir al usuario directamente a la pantalla de ejercicios
     if (!savedUsername.isNullOrEmpty()) {
         LaunchedEffect(Unit) {
-            navController.navigate("exercises_main")
+            navController.navigate("workout_plan")
         }
     }
 

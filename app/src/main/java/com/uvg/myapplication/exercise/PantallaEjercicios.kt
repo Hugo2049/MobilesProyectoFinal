@@ -20,23 +20,12 @@ import coil.size.Scale
 import coil.transform.CircleCropTransformation
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import com.uvg.myapplication.BottomNavBar
 
 @Composable
-fun ExerciseScreen(navController: NavController, exerciseId: String?, viewModel: WorkoutViewModel) {
+fun ExerciseScreen(navController: NavController) {
     val scrollState = rememberScrollState()
-    val exerciseDetails by viewModel.exerciseDetails.collectAsState()
-
-    // Cargar detalles del ejercicio cuando se abre la pantalla
-    LaunchedEffect(exerciseId) {
-        if (exerciseId != null) {
-            viewModel.loadExerciseDetails(exerciseId)
-        }
-    }
 
     Box(
         modifier = Modifier
@@ -47,73 +36,112 @@ fun ExerciseScreen(navController: NavController, exerciseId: String?, viewModel:
                 )
             )
     ) {
+        // Contenido de la pantalla
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(scrollState)
+                .verticalScroll(scrollState) // Habilitar el scroll vertical
         ) {
-            if (exerciseDetails == null) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-            } else {
-                val name = exerciseDetails?.get("name") as? String ?: "Unknown Exercise"
-                val difficulty = exerciseDetails?.get("difficulty") as? String ?: "Unknown"
-                val equipment = exerciseDetails?.get("equipment") as? String ?: "Unknown"
-                val goal = exerciseDetails?.get("goal") as? String ?: "Unknown"
-                val reps = exerciseDetails?.get("reps") as? String ?: "Unknown"
-                val rest = exerciseDetails?.get("rest") as? String ?: "Unknown"
-                val targetMuscles = exerciseDetails?.get("targetMuscles") as? String ?: "Unknown"
+            val painter = rememberImagePainter(
+                data = "PlaceHolder", // Cambia la URL por una imagen real
+                builder = {
+                    scale(Scale.FILL)
+                    transformations(CircleCropTransformation())
+                }
+            )
 
-                val painter = rememberImagePainter(
-                    data = "https://via.placeholder.com/300", // Cambiar a URL real si aplica
-                    builder = {
-                        scale(Scale.FILL)
-                        transformations(CircleCropTransformation())
-                    }
+            Image(
+                painter = painter,
+                contentDescription = "Dumbbell Lateral Raise",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(300.dp),
+                contentScale = ContentScale.Crop
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Dumbbell Lateral Raise",
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Sets x Reps",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp
+            )
+            Text(
+                text = "4x12-15\nRest 60s",
+                color = Color.Gray,
+                fontSize = 16.sp
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Targeted Muscles",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                horizontalArrangement = Arrangement.SpaceAround
+            ) {
+                MuscleChip("Middle Deltoid")
+                MuscleChip("Upper Trapezius")
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Equipment",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp
+            )
+            Text(
+                text = "Dumbbells",
+                color = Color.Gray,
+                fontSize = 16.sp
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Button(
+                onClick = { /* TODO: Acción al hacer clic */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF00A86B) // Verde similar al del primer código
                 )
-
-                Image(
-                    painter = painter,
-                    contentDescription = name,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(300.dp),
-                    contentScale = ContentScale.Crop
-                )
-
-                Spacer(modifier = Modifier.height(16.dp))
-
+            ) {
                 Text(
-                    text = name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                Text(text = "Difficulty: $difficulty", fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-                Text(text = "Equipment: $equipment", fontSize = 18.sp)
-                Text(text = "Goal: $goal", fontSize = 18.sp)
-                Text(text = "Reps: $reps", fontSize = 18.sp)
-                Text(text = "Rest: $rest", fontSize = 18.sp)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Targeted Muscles:",
-                    fontWeight = FontWeight.SemiBold,
+                    text = "Mark as Completed",
+                    color = Color.White,
                     fontSize = 18.sp
                 )
-                MuscleChip(targetMuscles)
             }
+
+            Spacer(modifier = Modifier.weight(1f)) // Spacer para empujar el contenido hacia arriba
         }
 
-        BottomNavBar(navController = navController, modifier = Modifier.align(Alignment.BottomCenter))
+        // Barra de navegación en la parte inferior
+        BottomNavBar(navController = navController,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth()) // Asegúrate de que tenga el ancho completo
     }
 }
-
 
 @Composable
 fun MuscleChip(muscle: String) {
