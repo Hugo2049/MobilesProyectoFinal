@@ -19,7 +19,7 @@ class WorkoutViewModel(private val preferences: SharedPreferences) : ViewModel()
     val exercises: StateFlow<List<String>> = _exercises
 
     // Estado del día seleccionado
-    private val _selectedDay = MutableStateFlow<LocalDate>(LocalDate.of(2024, 11, 21))
+    private val _selectedDay = MutableStateFlow<LocalDate>(LocalDate.of(2024, 11, 22))
     val selectedDay: StateFlow<LocalDate> = _selectedDay
 
     // Estado del mes actual
