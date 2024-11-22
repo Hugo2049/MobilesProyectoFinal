@@ -74,6 +74,24 @@ fun WorkoutPlanScreen(
                 val exerciseName = exercises.getOrNull(i - 1) ?: "No exercise"
                 WorkoutDay("Exercise $i: $exerciseName")
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón para cambiar de pantalla
+            Button(
+                onClick = { navController.navigate("exercises_specific") },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
+            ) {
+                Text(
+                    text = "Start Plan",
+                    fontSize = 18.sp,
+                    color = Color.White
+                )
+            }
         }
 
         // Barra de navegación inferior
