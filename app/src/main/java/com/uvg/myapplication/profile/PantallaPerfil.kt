@@ -1,5 +1,6 @@
 package com.uvg.myapplication.profile
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -21,6 +23,9 @@ import com.uvg.myapplication.BottomNavBar
 
 @Composable
 fun ProfileScreen(navController: NavController) {
+    val context = LocalContext.current
+    val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -74,7 +79,11 @@ fun ProfileScreen(navController: NavController) {
 
             // Botón de Logout
             Button(
-                onClick = { navController.navigate("login") },
+                onClick = {
+                    // Eliminar el estado de autenticación
+                    sharedPreferences.edit().remove("username").apply()
+                    navController.navigate("login") // Redirigir a la pantalla de login
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),

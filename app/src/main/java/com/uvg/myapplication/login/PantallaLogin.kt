@@ -32,6 +32,17 @@ fun NutriFitLoginScreen(navController: NavController) {
     val context = LocalContext.current
     val db = FirebaseFirestore.getInstance()
 
+    // Leer el username guardado en SharedPreferences si existe
+    val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+    val savedUsername = sharedPreferences.getString("username", "")
+
+    // Si ya está guardado un username, redirigir al usuario directamente a la pantalla de ejercicios
+    if (!savedUsername.isNullOrEmpty()) {
+        LaunchedEffect(Unit) {
+            navController.navigate("exercises_main")
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -109,7 +120,7 @@ fun NutriFitLoginScreen(navController: NavController) {
                             if (!documents.isEmpty) {
                                 Toast.makeText(context, "Login successful!", Toast.LENGTH_SHORT).show()
 
-                                val sharedPreferences = context.getSharedPreferences("MyAppPreferences", Context.MODE_PRIVATE)
+                                // Guardar el username en SharedPreferences
                                 sharedPreferences.edit().putString("username", username).apply()
 
                                 navController.navigate("exercises_main")
