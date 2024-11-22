@@ -3,30 +3,45 @@ package com.uvg.myapplication.login
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
-import com.google.firebase.firestore.FirebaseFirestore
+import com.uvg.myapplication.viewmodel.CheckUserViewModel
+import com.uvg.myapplication.repository.UserRepository
 
 @Composable
-fun ProfileCheckUser(navController: NavController) {
+fun ProfileCheckUserScreen(navController: NavController) {
+    val repository = remember { UserRepository() }
+    val viewModel = remember { CheckUserViewModel(repository) }
+
+    CheckUserUI(navController, viewModel)
+}
+
+@Composable
+fun CheckUserUI(navController: NavController, viewModel: CheckUserViewModel) {
     var username by remember { mutableStateOf("") }
     val context = LocalContext.current
-    val db = FirebaseFirestore.getInstance()
+
+    val userExists by viewModel.userExists.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+    LaunchedEffect(userExists) {
+        if (userExists) {
+            navController.navigate("change_password/$username")
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -36,96 +51,39 @@ fun ProfileCheckUser(navController: NavController) {
                     colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD))
                 )
             )
-            .padding(horizontal = 24.dp, vertical = 20.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = "First let's check your username",
-            fontSize = 28.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF333333),
-            modifier = Modifier.padding(bottom = 32.dp)
-        )
+        Text("Check Username", fontSize = 28.sp, color = Color(0xFF333333))
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         BasicTextField(
             value = username,
             onValueChange = { username = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp)
-                .background(Color(0xFFFFFFFF))
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+                .background(Color.White)
+                .padding(16.dp),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp),
-            decorationBox = { innerTextField ->
-                if (username.isEmpty()) {
-                    Text("Username", color = Color.Gray, fontSize = 16.sp)
-                }
-                innerTextField()
-            }
+            textStyle = TextStyle(color = Color.Black, fontSize = 16.sp)
         )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        Button(
-            onClick = {
-                if (username.isNotEmpty()) {
-                    db.collection("users")
-                        .whereEqualTo("username", username)
-                        .get()
-                        .addOnSuccessListener { documents ->
-                            if (!documents.isEmpty) {
-                                navController.navigate("change_password/$username") {
-                                    popUpTo("check_user") { inclusive = true }
-                                }
-                            } else {
-                                Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                        .addOnFailureListener { exception ->
-                            Toast.makeText(context, "Error al verificar usuario: ${exception.message}", Toast.LENGTH_SHORT).show()
-                        }
-                } else {
-                    Toast.makeText(context, "Por favor, ingrese un nombre de usuario", Toast.LENGTH_SHORT).show()
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color(0xFF00A86B),
-                contentColor = Color.White
-            )
-        ) {
-            Text(
-                text = "Save Changes",
-                fontSize = 16.sp
-            )
-        }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(
-            onClick = {
-                navController.navigateUp()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .height(50.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFCCCCCC),
-                contentColor = Color.Black
-            )
-        ) {
-            Text(
-                text = "Cancel",
-                fontSize = 16.sp
-            )
+        Button(onClick = {
+            if (username.isBlank()) {
+                Toast.makeText(context, "Username is required", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.checkUser(username)
+            }
+        }) {
+            Text("Check User")
+        }
+
+        if (errorMessage.isNotEmpty()) {
+            Text(errorMessage, color = Color.Red, modifier = Modifier.padding(top = 8.dp))
         }
     }
 }
