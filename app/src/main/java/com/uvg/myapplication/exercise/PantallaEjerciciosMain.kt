@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.firestore.FirebaseFirestore
 import com.uvg.myapplication.BottomNavBar
 import java.time.LocalDate
 import java.time.YearMonth
@@ -28,6 +29,29 @@ import java.util.*
 @Composable
 fun WorkoutPlanScreen(navController: NavController) {
     val scrollState = rememberScrollState()
+    val selectedDayNumber = remember { mutableStateOf<Int?>(null) }
+    val exercises = remember { mutableStateOf<List<String>>(emptyList()) } // Lista para ejercicios
+
+    val db = FirebaseFirestore.getInstance()
+
+    // Cargar datos desde Firestore cuando se selecciona un día
+    LaunchedEffect(selectedDayNumber.value) {
+        selectedDayNumber.value?.let { day ->
+            db.collection("users")
+                .document("rZ3FtLee4lvwfgZVCnbu")
+                .collection("entries")
+                .document("día_$day")
+                .collection("exercises")
+                .get()
+                .addOnSuccessListener { documents ->
+                    val loadedExercises = documents.map { it.getString("name") ?: "Unknown Exercise" }
+                    exercises.value = loadedExercises // Actualiza la lista de ejercicios
+                }
+                .addOnFailureListener {
+                    exercises.value = listOf("Error loading exercises")
+                }
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -38,7 +62,6 @@ fun WorkoutPlanScreen(navController: NavController) {
                 )
             )
     ) {
-        // Contenido principal en columna con scroll
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -46,81 +69,31 @@ fun WorkoutPlanScreen(navController: NavController) {
                 .verticalScroll(scrollState)
                 .padding(16.dp)
         ) {
-            WorkoutCalendar()
+            WorkoutCalendar(selectedDayNumber)
 
             Spacer(modifier = Modifier.height(20.dp))
 
             Text(
-                text = "Personalized Plan",
+                text = "Exercises for Day ${selectedDayNumber.value ?: "None"}",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF1B5E20) // Verde oscuro
             )
 
-            Text(
-                text = "Get Lean in 2 Weeks",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = Color(0xFF2E7D32), // Verde medio
-                modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
-            )
-
-            Text(
-                text = "We've created a plan to help you get lean. It's designed for beginners, and it's easy to follow.",
-                fontSize = 14.sp,
-                color = Color(0xFF33691E) // Verde oscuro
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Lista de ejercicios en boxes individuales
-            WorkoutDay("Day 1: Monday Chest & Triceps")
-            WorkoutDay("Day 2: Tuesday Back & Biceps")
-            WorkoutDay("Day 3: Wednesday Rest")
-            WorkoutDay("Day 4: Thursday Shoulders")
-            WorkoutDay("Day 5: Friday Legs")
-            WorkoutDay("Day 6: Saturday Arms")
-            WorkoutDay("Day 7: Sunday Rest")
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Botón para iniciar el plan
-            Button(
-                onClick = { navController.navigate("exercises_specific") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFF66BB6A)) // Verde claro para el botón
-            ) {
-                Text(
-                    text = "Start Plan",
-                    fontSize = 18.sp,
-                    color = Color.White
-                )
+            // Muestra los ejercicios en los 5 Box
+            for (i in 1..5) {
+                val exerciseName = exercises.value.getOrNull(i - 1) ?: "No exercise"
+                WorkoutDay("Exercise $i: $exerciseName")
             }
-            Button(
-                onClick = { navController.navigate("exercises_specific") },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(25.dp),
-                colors = ButtonDefaults.buttonColors(Color(0xFFE8F5E9))
-            ){  }
-
         }
 
-
-        // Barra de navegación inferior fija en la parte inferior
+        // Barra de navegación inferior
         BottomNavBar(
             navController = navController,
-            modifier = Modifier
-                .align(Alignment.BottomCenter) // Alinea la barra de navegación en la parte inferior
+            modifier = Modifier.align(Alignment.BottomCenter)
         )
     }
 }
-
-// La función WorkoutDay permanece igual
 @Composable
 fun WorkoutDay(dayText: String) {
     Box(
@@ -159,12 +132,10 @@ fun WorkoutDay(dayText: String) {
     }
 }
 
-// La función WorkoutCalendar permanece igual
 @Composable
-fun WorkoutCalendar() {
+fun WorkoutCalendar(selectedDayNumber: MutableState<Int?>) {
     val today = LocalDate.now()
-    val selectedDate = remember { mutableStateOf<LocalDate?>(null) }
-    val month = YearMonth.of(2023, 4) // Abril 2023
+    val month = YearMonth.now()
     val firstDayOfMonth = month.atDay(1)
     val lastDayOfMonth = month.atEndOfMonth()
     val daysOfWeek = listOf("S", "M", "T", "W", "T", "F", "S")
@@ -177,7 +148,6 @@ fun WorkoutCalendar() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            // Mes anterior
             ClickableText(
                 text = AnnotatedString("<"),
                 onClick = { /* Navegar al mes anterior */ },
@@ -185,7 +155,6 @@ fun WorkoutCalendar() {
                 style = androidx.compose.ui.text.TextStyle(color = Color(0xFF1B5E20)) // Verde oscuro
             )
 
-            // Mes y año
             Text(
                 text = month.month.getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + month.year,
                 fontWeight = FontWeight.Bold,
@@ -193,7 +162,6 @@ fun WorkoutCalendar() {
                 color = Color(0xFF1B5E20) // Verde oscuro
             )
 
-            // Mes siguiente
             ClickableText(
                 text = AnnotatedString(">"),
                 onClick = { /* Navegar al mes siguiente */ },
@@ -204,7 +172,6 @@ fun WorkoutCalendar() {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Días de la semana
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
@@ -216,7 +183,6 @@ fun WorkoutCalendar() {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Días del mes
         val startOffset = firstDayOfMonth.dayOfWeek.value % 7
         var currentDay = firstDayOfMonth.minusDays(startOffset.toLong())
 
@@ -226,26 +192,23 @@ fun WorkoutCalendar() {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 for (day in 1..7) {
-                    if (currentDay.isAfter(lastDayOfMonth)) {
-                        break
-                    }
+                    if (currentDay.isAfter(lastDayOfMonth)) break
 
+                    val dayOfMonth = currentDay.dayOfMonth
                     Text(
-                        text = if (currentDay.monthValue == month.monthValue) currentDay.dayOfMonth.toString() else "",
+                        text = if (currentDay.monthValue == month.monthValue) dayOfMonth.toString() else "",
                         fontSize = 16.sp,
-                        color = if (selectedDate.value == currentDay) Color(0xFF66BB6A) else Color(0xFF1B5E20), // Verde claro para la fecha seleccionada
+                        color = if (selectedDayNumber.value == dayOfMonth) Color(0xFF66BB6A) else Color(0xFF1B5E20),
                         modifier = Modifier
                             .padding(8.dp)
                             .clickable {
-                                selectedDate.value = currentDay
+                                selectedDayNumber.value = dayOfMonth
                             }
                     )
                     currentDay = currentDay.plusDays(1)
                 }
             }
-            if (currentDay.isAfter(lastDayOfMonth)) {
-                break
-            }
+            if (currentDay.isAfter(lastDayOfMonth)) break
         }
     }
 }
