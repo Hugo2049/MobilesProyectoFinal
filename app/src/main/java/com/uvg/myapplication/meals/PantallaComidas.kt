@@ -23,10 +23,36 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import com.uvg.myapplication.BottomNavBar
+import com.google.firebase.firestore.FirebaseFirestore
+import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.FirebaseApp
+
 
 @Composable
 fun MealsScreen(navController: NavController) {
+    val db = FirebaseFirestore.getInstance()
+
     val scrollState = rememberScrollState()
+    var meals by remember { mutableStateOf<List<String>>(emptyList()) }
+
+    // Cargar datos de Firestore
+    LaunchedEffect(Unit) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document("rZ3FtLee4lvwfgZVCnbu")
+            .collection("entries")
+            .document("día_2")
+            .collection("meals")
+            .get()
+            .addOnSuccessListener { result ->
+                meals = result.map { it.getString("name") ?: "Unknown" }
+            }
+            .addOnFailureListener { exception ->
+                // Maneja el error
+            }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +61,7 @@ fun MealsScreen(navController: NavController) {
                     colors = listOf(Color(0xFFF5F5DC), Color(0xFFDDFFDD)) // Fondo degradado verde claro
                 )
             )
-    ){
+    ) {
 
         Column(
             modifier = Modifier
@@ -49,9 +75,9 @@ fun MealsScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             // Lista de comidas
-            MealItem("Frittata with Asparagus")
-            MealItem("Baked Chicken")
-            MealItem("Pasta with Spinach")
+            meals.forEach { meal ->
+                MealItem(meal)
+            }
 
             Spacer(modifier = Modifier.height(16.dp))
 
