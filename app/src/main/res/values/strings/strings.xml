@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <resources>
+        <string name="age_label">Edad</string>
+        <string name="weight_label">Peso</string>
+        <string name="height_label">Altura</string>
+        <string name="exercise_frequency_label">Frecuencia de ejercicio:</string>
+        <string name="dietary_restriction_label">Restricción dietética:</string>
+        <string name="all_fields_required">Todos los campos son obligatorios</string>
+        <string name="continue_button">Continuar</string>
+        <string name="failed_to_save_goals">Error al guardar objetivos: %1$s</string>
+        <string name="exercises_assigned_success">¡Ejercicios asignados correctamente!</string>
+        <string name="no_exercises_found">No se encontraron ejercicios para esta configuración</string>
+        <string name="meals_assigned_success">¡Comidas asignadas correctamente!</string>
+    </resources>
+
+</resources>
