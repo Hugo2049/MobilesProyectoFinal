@@ -5,9 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.uvg.myapplication.exercise.ExerciseScreen
 import com.uvg.myapplication.exercise.WorkoutPlanScreen
 import com.uvg.myapplication.exercise.WorkoutViewModel
@@ -38,7 +40,6 @@ class MainActivity : ComponentActivity() {
         val mealsFactory = MealsViewModelFactory(preferences)
         mealsViewModel = ViewModelProvider(this, mealsFactory)[MealsViewModel::class.java]
 
-
         // Inicializa ViewModels con sus fábricas personalizadas
         val workoutFactory = WorkoutViewModelFactory(preferences)
         workoutViewModel = ViewModelProvider(this, workoutFactory)[WorkoutViewModel::class.java]
@@ -56,8 +57,14 @@ class MainActivity : ComponentActivity() {
                         WorkoutPlanScreen(navController, workoutViewModel)
                     }
 
-                    // Pantalla específica de ejercicios
-                    composable("exercises_specific") { ExerciseScreen(navController) }
+                    // Pantalla específica de ejercicios con parámetros
+                    composable(
+                        route = "exercise_screen/{exerciseId}",
+                        arguments = listOf(navArgument("exerciseId") { type = NavType.StringType })
+                    ) { backStackEntry ->
+                        val exerciseId = backStackEntry.arguments?.getString("exerciseId")
+                        ExerciseScreen(navController, exerciseId, workoutViewModel)
+                    }
 
                     // Pantalla de creación de usuario
                     composable("create_user") { SignUpScreen(navController) }
@@ -72,6 +79,7 @@ class MainActivity : ComponentActivity() {
                     composable("meals") {
                         MealsScreen(navController = navController, mealsViewModel = mealsViewModel)
                     }
+
                     // Pantalla de recetas
                     composable("recipes") { RecipeScreen(navController) }
 

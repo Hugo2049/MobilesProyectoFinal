@@ -75,8 +75,8 @@ fun WorkoutPlanScreen(
                 WorkoutDay(
                     dayText = "Exercise $i: $exerciseName",
                     onClick = {
-                        // Navegar a la pantalla específica del ejercicio
-                        navController.navigate("exercises_specific")
+                        // Navegar a ExerciseScreen con el ID del ejercicio
+                        navController.navigate("exercise_screen/${exerciseName}")
                     }
                 )
             }

@@ -18,6 +18,10 @@ class WorkoutViewModel(private val preferences: SharedPreferences) : ViewModel()
     private val _exercises = MutableStateFlow<List<String>>(emptyList())
     val exercises: StateFlow<List<String>> = _exercises
 
+    // Estado para un ejercicio específico
+    private val _exerciseDetails = MutableStateFlow<Map<String, Any>?>(null)
+    val exerciseDetails: StateFlow<Map<String, Any>?> = _exerciseDetails
+
     // Estado del día seleccionado
     private val _selectedDay = MutableStateFlow<LocalDate>(LocalDate.of(2024, 11, 22))
     val selectedDay: StateFlow<LocalDate> = _selectedDay
@@ -30,11 +34,10 @@ class WorkoutViewModel(private val preferences: SharedPreferences) : ViewModel()
         get() = generateDaysInMonth()
 
     init {
-        // Cargar ejercicios por defecto para el día inicial
         loadExercisesForDay(_selectedDay.value.dayOfMonth)
     }
 
-    // Función para cargar ejercicios desde Firebase
+    // Cargar ejercicios desde Firebase
     fun loadExercisesForDay(day: Int) {
         viewModelScope.launch {
             db.collection("users")
@@ -46,10 +49,28 @@ class WorkoutViewModel(private val preferences: SharedPreferences) : ViewModel()
                 .addOnSuccessListener { documents ->
                     val loadedExercises = documents.map { it.getString("name") ?: "Unknown Exercise" }
                     _exercises.value = loadedExercises
-                    saveExercisesToCache(loadedExercises)
                 }
                 .addOnFailureListener {
                     _exercises.value = listOf("Error loading exercises")
+                }
+        }
+    }
+
+    // Cargar detalles de un ejercicio específico
+    fun loadExerciseDetails(exerciseId: String) {
+        viewModelScope.launch {
+            db.collection("exercises")
+                .document(exerciseId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document.exists()) {
+                        _exerciseDetails.value = document.data
+                    } else {
+                        _exerciseDetails.value = mapOf("error" to "Exercise not found")
+                    }
+                }
+                .addOnFailureListener {
+                    _exerciseDetails.value = mapOf("error" to "Failed to load exercise details")
                 }
         }
     }

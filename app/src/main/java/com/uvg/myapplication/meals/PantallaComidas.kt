@@ -117,7 +117,7 @@ fun DateSelector(
                 containerColor = if (selectedDate == LocalDate.now().plusDays(1)) Color.Gray else Color(0xFFE0E0E0)
             )
         ) {
-            Text("Tomorrow", color = Color.Black)
+            Text("22/11", color = Color.Black)
         }
         Button(
             onClick = onDayAfterTomorrowSelected,
@@ -126,7 +126,7 @@ fun DateSelector(
                 containerColor = if (selectedDate == LocalDate.now().plusDays(2)) Color.Gray else Color(0xFFD7CCC8)
             )
         ) {
-            Text("Day After Tomorrow", color = Color.Black)
+            Text("23/11", color = Color.Black)
         }
     }
 }
