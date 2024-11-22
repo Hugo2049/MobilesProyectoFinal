@@ -7,4 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Fondo del gradiente -->
+    <color name="background_start">#F5F5DC</color>
+    <color name="background_end">#DDFFDD</color>
+
+    <!-- Texto secundario -->
+    <color name="text_secondary">#808080</color> <!-- Gray -->
+
+    <!-- Botón -->
+    <color name="button_background">#00A86B</color>
+    <color name="button_text">#FFFFFF</color> <!-- White -->
+
+    <!-- Chips -->
+    <color name="chip_background">#E1E1E1</color>
+    <color name="chip_text">#000000</color> <!-- Black -->
 </resources>
