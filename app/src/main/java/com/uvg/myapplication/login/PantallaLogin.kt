@@ -33,6 +33,11 @@ fun LoginScreenUI(navController: NavController, viewModel: LoginViewModel) {
     val loginState by viewModel.loginState.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
 
+    // Reset login state when entering the screen
+    LaunchedEffect(Unit) {
+        viewModel.resetLoginState()
+    }
+
     // Handle login success navigation in a LaunchedEffect
     LaunchedEffect(loginState) {
         if (loginState) {

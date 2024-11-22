@@ -50,7 +50,7 @@ fun BottomNavBar(
             icon = { Icon(painter = painterResource(R.drawable.ic_fitness), contentDescription = "Fitness") },
             label = { Text("Fitness") },
             selected = false,
-            onClick = { navController.navigate("exercises_main") },
+            onClick = { navController.navigate("workout_plan") },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = Color.White, // Blanco para icono seleccionado
                 unselectedIconColor = Color(0xFFDDFFDD), // Verde oscuro para icono no seleccionado
